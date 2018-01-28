@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Ready to Study</string>
+    <string name="error_text">Ошибка</string>
+    <string name="retry_text">повторить загрузку</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="login">Login</string>
+    <string name="action_next">Next</string>
+    <string name="name">name</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="action_sign_in_short">LOGIN</string>
+    <string name="pick_group">Choose group</string>
+    <string name="preference_file_key">preference_file_key</string>
+    
+    <!--errors-->
+    <string name="error_110">Неправильный email или пароль</string>
+    <string name="error_general">К сожалению, произошла ошибка</string>
+    <string name="error_401">unauthorized</string>
 </resources>

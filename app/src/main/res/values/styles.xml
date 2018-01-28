@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">`
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -6,6 +6,57 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.Fullscreen">
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="LoginTheme" parent="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/background_splash</item>
+        <item name="colorAccent">@color/loginColorAccent</item>
+        <item name="android:textColorHint">@color/loginTextColorHint</item>
+    </style>
+
+    <style name="authInputLayout" parent="TextAppearance.AppCompat">
+        <item name="android:textColorHint">@color/loginTextColorForgot</item>
+        <item name="android:textSize">12sp</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="TextHintLabel" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="regEditText" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:padding">4dp</item>
+    </style>
+
+    <style name="authEditText" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
 </resources>
