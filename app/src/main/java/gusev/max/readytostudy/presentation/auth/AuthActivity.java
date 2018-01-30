@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.Toast;
 
 import gusev.max.readytostudy.App;
 import gusev.max.readytostudy.R;
@@ -14,6 +15,7 @@ import gusev.max.readytostudy.presentation.auth.login.AuthFragment;
 import gusev.max.readytostudy.presentation.auth.signup.SignUpFragment;
 import gusev.max.readytostudy.presentation.base.BaseActivityFragmentContainer;
 import gusev.max.readytostudy.presentation.main.MainActivity;
+import gusev.max.readytostudy.utils.NetworkConnectionCheckUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -41,16 +43,21 @@ public class AuthActivity extends BaseActivityFragmentContainer implements AuthA
     }
 
     private void checkAuth() {
-        Disposable disposable = interactor
-            .reauth()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(userModel -> {
-                loggedIn(userModel);
-            }, throwable -> {
-                navigateToFragment(createFragment(AUTH_FRAGMENT, null), AuthFragment.TAG);
-            });
-        addDisposable(disposable);
+        if(NetworkConnectionCheckUtil.isThereInternetConnection()){
+            Disposable disposable = interactor
+                .reauth()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userModel -> {
+                    loggedIn(userModel);
+                }, throwable -> {
+                    navigateToFragment(createFragment(AUTH_FRAGMENT, null), AuthFragment.TAG);
+                });
+            addDisposable(disposable);
+        } else {
+            Toast.makeText(this, "Проверьте ваше интернет соединение", Toast.LENGTH_SHORT).show();
+            navigateToAuth();
+        }
     }
 
     @Override

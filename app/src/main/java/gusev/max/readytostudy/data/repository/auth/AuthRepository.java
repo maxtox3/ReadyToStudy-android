@@ -1,4 +1,4 @@
-package gusev.max.readytostudy.data.repository;
+package gusev.max.readytostudy.data.repository.auth;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import io.reactivex.Observable;
  * Created by v on 13/01/2018.
  */
 
-public interface AuthRepository extends BaseRepository {
+public interface AuthRepository {
 
     Observable<UserEntity> login(String email, String password);
 

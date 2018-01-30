@@ -1,4 +1,4 @@
-package gusev.max.readytostudy.data.repository;
+package gusev.max.readytostudy.data.repository.auth;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import gusev.max.readytostudy.data.api.AuthApi;
 import gusev.max.readytostudy.data.entity.GroupEntity;
 import gusev.max.readytostudy.data.entity.UserEntity;
 import gusev.max.readytostudy.data.pojo.GroupsPojo;
+import gusev.max.readytostudy.utils.StringService;
 import io.reactivex.Observable;
 
 /**
@@ -52,7 +53,7 @@ public class AuthRepositoryImpl implements AuthRepository {
 
     @Override
     public Observable<UserEntity> reauth(String token) {
-        return api.refresh(buildToken(token)).toObservable().flatMap(authResponsePojo -> {
+        return api.refresh(StringService.buildTokenString(token)).toObservable().flatMap(authResponsePojo -> {
             if (authResponsePojo.getError() != null) {
                 return Observable.error(new Throwable(authResponsePojo.getError()));
             }
@@ -62,7 +63,7 @@ public class AuthRepositoryImpl implements AuthRepository {
 
     @Override
     public Observable<UserEntity> me(String token) {
-        return api.me(buildToken(token))
+        return api.me(StringService.buildTokenString(token))
                   .toObservable()
                   .flatMap(authResponsePojo -> {
                       if (authResponsePojo.getError() != null) {
@@ -72,12 +73,5 @@ public class AuthRepositoryImpl implements AuthRepository {
                       user.setToken(token);
                       return Observable.just(authResponsePojo.getUser());
                   });
-    }
-
-    private String buildToken(String token){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Bearer ");
-        sb.append(token);
-        return sb.toString();
     }
 }

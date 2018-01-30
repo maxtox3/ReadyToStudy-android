@@ -2,6 +2,8 @@
     <string name="app_name">Ready to Study</string>
     <string name="error_text">Ошибка</string>
     <string name="retry_text">повторить загрузку</string>
+    <string name="loading_error_text">Ошибка загрузки</string>
+    <string name="refreshing_error_text">Ошибка обновления</string>
     <string name="email">email</string>
     <string name="password">password</string>
     <string name="sign_up">Sign up</string>
@@ -12,6 +14,7 @@
     <string name="action_sign_in_short">LOGIN</string>
     <string name="pick_group">Choose group</string>
     <string name="preference_file_key">preference_file_key</string>
+    <string name="disciplines">Дисциплины</string>
     
     <!--errors-->
     <string name="error_110">Неправильный email или пароль</string>

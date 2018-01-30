@@ -12,15 +12,16 @@ import gusev.max.readytostudy.App;
 
 public class NetworkConnectionCheckUtil {
 
-        public static boolean isThereInternetConnection() {
-            boolean isConnected;
-            ConnectivityManager connectivityManager = (ConnectivityManager) App.getContext().getSystemService(
-                Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = null;
-            if (connectivityManager != null) {
-                networkInfo = connectivityManager.getActiveNetworkInfo();
-            }
-            isConnected = (networkInfo != null && networkInfo.isConnectedOrConnecting());
-            return isConnected;
+    public static boolean isThereInternetConnection() {
+        boolean isConnected;
+        ConnectivityManager connectivityManager = (ConnectivityManager) App
+            .getContext()
+            .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
         }
+        isConnected = (networkInfo != null && networkInfo.isConnectedOrConnecting());
+        return isConnected;
+    }
 }

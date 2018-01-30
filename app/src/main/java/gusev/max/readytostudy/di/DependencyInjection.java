@@ -4,15 +4,23 @@ import java.util.concurrent.TimeUnit;
 
 import gusev.max.readytostudy.BuildConfig;
 import gusev.max.readytostudy.data.api.AuthApi;
+import gusev.max.readytostudy.data.api.DisciplinesApi;
 import gusev.max.readytostudy.data.api.LoggingInterceptor;
-import gusev.max.readytostudy.data.repository.AuthRepository;
-import gusev.max.readytostudy.data.repository.AuthRepositoryImpl;
+import gusev.max.readytostudy.data.repository.auth.AuthRepository;
+import gusev.max.readytostudy.data.repository.auth.AuthRepositoryImpl;
+import gusev.max.readytostudy.data.repository.disciplines.DisciplinesRepository;
+import gusev.max.readytostudy.data.repository.disciplines.DisciplinesRepositoryImpl;
 import gusev.max.readytostudy.domain.interactor.AuthInteractor;
+import gusev.max.readytostudy.domain.interactor.DisciplineInteractor;
 import gusev.max.readytostudy.domain.mapper.AuthMapper;
+import gusev.max.readytostudy.domain.mapper.DisciplineEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.GroupEntityToModelMapper;
+import gusev.max.readytostudy.domain.mapper.MainMapper;
+import gusev.max.readytostudy.domain.mapper.ThemeEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.UserEntityToModelMapper;
 import gusev.max.readytostudy.presentation.auth.login.AuthPresenter;
 import gusev.max.readytostudy.presentation.auth.signup.SignUpPresenter;
+import gusev.max.readytostudy.presentation.main.disciplines.DisciplinesListPresenter;
 import gusev.max.readytostudy.utils.SharedPrefManager;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -40,17 +48,28 @@ public class DependencyInjection {
         .addConverterFactory(GsonConverterFactory.create())
         .build();
 
-    //api interfaces
-    private final AuthApi authApi = retrofit.create(AuthApi.class);
 
-    //repositories
+    //<----------------------api---------------------->
+    private final AuthApi authApi = retrofit.create(AuthApi.class);
+    private final DisciplinesApi disciplinesApi = retrofit.create(DisciplinesApi.class);
+
+
+    //<----------------------repository---------------------->
     private final AuthRepository authRepository = new AuthRepositoryImpl(authApi);
 
     private AuthRepository getAuthRepository() {
         return authRepository;
     }
 
-    //mappers
+    private final DisciplinesRepository disciplinesRepository = new DisciplinesRepositoryImpl(
+        disciplinesApi);
+
+    private DisciplinesRepository getDisciplinesRepository() {
+        return disciplinesRepository;
+    }
+
+
+    //<----------------------mappers---------------------->
     private final UserEntityToModelMapper userEntityToModelMapper = new UserEntityToModelMapper();
     private final GroupEntityToModelMapper groupEntityToModelMapper = new GroupEntityToModelMapper();
     private final AuthMapper authMapper = new AuthMapper(userEntityToModelMapper,
@@ -60,25 +79,51 @@ public class DependencyInjection {
         return authMapper;
     }
 
-    //utils
-    public SharedPrefManager getPrefManager(){
+    private final DisciplineEntityToModelMapper disciplineEntityToModelMapper = new DisciplineEntityToModelMapper();
+    private ThemeEntityToModelMapper themeEntityToModelMapper = new ThemeEntityToModelMapper();
+    private MainMapper mainMapper = new MainMapper(disciplineEntityToModelMapper,
+        themeEntityToModelMapper);
+
+    private MainMapper getMainMapper() {
+        return mainMapper;
+    }
+
+
+    //<----------------------utils---------------------->
+    public SharedPrefManager getPrefManager() {
         return SharedPrefManager.getInstance();
     }
 
-    //interactors
+
+    //<----------------------interactor---------------------->
     private AuthInteractor authInteractor = new AuthInteractor(getAuthRepository(),
-        getAuthMapper(), getPrefManager());
+        getAuthMapper(),
+        getPrefManager());
+
+    private DisciplineInteractor disciplineInteractor = new DisciplineInteractor(getMainMapper(),
+        getDisciplinesRepository(),
+        getAuthRepository(),
+        getPrefManager());
 
     public AuthInteractor getAuthInteractor() {
         return authInteractor;
     }
 
-    //presenters
+    public DisciplineInteractor getDisciplinesInteractor() {
+        return disciplineInteractor;
+    }
+
+
+    //<----------------------presenter---------------------->
     public AuthPresenter newAuthPresenter() {
         return new AuthPresenter(getAuthInteractor());
     }
 
     public SignUpPresenter newSignUpPresenter() {
         return new SignUpPresenter(getAuthInteractor());
+    }
+
+    public DisciplinesListPresenter newDispciplinesListPresenter() {
+        return new DisciplinesListPresenter(getDisciplinesInteractor());
     }
 }

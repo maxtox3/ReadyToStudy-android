@@ -1,6 +1,7 @@
 package gusev.max.readytostudy.data.api;
 
-public class ApiKeyInterceptor {// implements Interceptor {
+public class ApiKeyInterceptor{}
+//    implements Interceptor {
 //
 //    @Override
 //    public Response intercept(Chain chain) throws IOException {
@@ -9,5 +10,5 @@ public class ApiKeyInterceptor {// implements Interceptor {
 //                               .build();
 //        return chain.proceed(request);
 //    }
-
-}
+//
+//}

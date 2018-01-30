@@ -1,6 +1,6 @@
 package gusev.max.readytostudy.domain.interactor;
 
-import gusev.max.readytostudy.data.repository.AuthRepository;
+import gusev.max.readytostudy.data.repository.auth.AuthRepository;
 import gusev.max.readytostudy.domain.mapper.AuthMapper;
 import gusev.max.readytostudy.domain.model.SignUpModel;
 import gusev.max.readytostudy.domain.model.UserModel;

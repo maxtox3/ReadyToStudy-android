@@ -35,9 +35,11 @@
         <activity
             android:name=".presentation.main.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
         </activity>
     </application>
 
 </manifest>
+
+    <!--android:theme="@style/AppTheme"-->

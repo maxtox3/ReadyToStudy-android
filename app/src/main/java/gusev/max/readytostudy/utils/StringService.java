@@ -16,4 +16,7 @@ public class StringService {
         }
     }
 
+    public static String buildTokenString(String token) {
+        return "Bearer " + token;
+    }
 }
