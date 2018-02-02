@@ -147,8 +147,8 @@ public class SignUpFragment extends MviFragment<SignUpView, SignUpPresenter> imp
             renderError(((SignUpViewState.ErrorState) state).getError());
         } else if (state instanceof SignUpViewState.FieldErrorState) {
             renderFieldError(((SignUpViewState.FieldErrorState) state).getFieldType());
-        } else if (state instanceof SignUpViewState.DataState) {
-            renderSignUpOk(((SignUpViewState.DataState) state).getViewObject());
+        } else if (state instanceof BaseViewState.DataStateBase) {
+            renderSignUpOk(((BaseViewState.DataStateBase) state).getViewObject());
         }
     }
 

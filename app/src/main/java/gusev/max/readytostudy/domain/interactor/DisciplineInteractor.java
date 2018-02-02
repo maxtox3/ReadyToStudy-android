@@ -33,7 +33,7 @@ public class DisciplineInteractor {
     public Observable<BaseViewState> getDisciplines() {
         return repository
             .getDisciplines(helper.getToken())
-            .map(entity -> mapper.transformDisciplinesAndThemesPair(entity))
+            .map(mapper::transformDisciplinesAndThemesPair)
             .map(DisciplinesViewState.DataState::new)
             .cast(BaseViewState.class)
             .startWith(new DisciplinesViewState.LoadingState())
@@ -43,7 +43,7 @@ public class DisciplineInteractor {
     public Observable<BaseViewState> selectDiscipline(Long disciplineId) {
         return repository
             .getThemesByDisciplineId(helper.getToken(), disciplineId)
-            .map(list -> mapper.transformThemes(list))
+            .map(mapper::transformThemes)
             .map(DisciplinesViewState.DataState::new)
             .cast(BaseViewState.class)
             .startWith(new DisciplinesViewState.LoadingState())

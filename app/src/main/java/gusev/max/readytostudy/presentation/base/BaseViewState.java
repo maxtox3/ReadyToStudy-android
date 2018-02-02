@@ -35,15 +35,27 @@ public interface BaseViewState {
         }
     }
 
-    final class DataState<M extends BaseModel> implements BaseViewState {
+    final class DataStateBase<M extends BaseModel> implements BaseViewState {
 
         private final M viewObject;
 
-        public DataState(M viewObject) {
+        public DataStateBase(M viewObject) {
             this.viewObject = viewObject;
         }
 
         public M getViewObject() {
+            return viewObject;
+        }
+    }
+
+    final class DataState<T> implements BaseViewState{
+        private final T viewObject;
+
+        public DataState(T viewObject) {
+            this.viewObject = viewObject;
+        }
+
+        public T getViewObject() {
             return viewObject;
         }
     }

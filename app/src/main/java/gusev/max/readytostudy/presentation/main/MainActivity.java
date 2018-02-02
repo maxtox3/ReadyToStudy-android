@@ -7,9 +7,13 @@ import android.util.Log;
 
 import gusev.max.readytostudy.R;
 import gusev.max.readytostudy.presentation.base.BaseActivityFragmentContainer;
+import gusev.max.readytostudy.presentation.base.BaseModel;
 import gusev.max.readytostudy.presentation.main.disciplines.DisciplinesFragment;
+import gusev.max.readytostudy.presentation.main.themes.ThemesFragment;
 
+import static gusev.max.readytostudy.domain.model.ThemeModel.THEME_MODEL;
 import static gusev.max.readytostudy.utils.Constants.DISCIPLINES_LIST_FRAGMENT;
+import static gusev.max.readytostudy.utils.Constants.THEMES_LIST_FRAGMENT;
 
 /**
  * Created by v on 27/01/2018.
@@ -41,6 +45,12 @@ public class MainActivity extends BaseActivityFragmentContainer implements MainA
         switch (tag) {
             case DISCIPLINES_LIST_FRAGMENT:
                 return new DisciplinesFragment();
+            case THEMES_LIST_FRAGMENT:
+                if(getSupportFragmentManager().findFragmentByTag(ThemesFragment.TAG) != null){
+                    return getSupportFragmentManager().findFragmentByTag(ThemesFragment.TAG);
+                } else {
+                    return ThemesFragment.newInstance(args);
+                }
             default:
                 Log.i("createFragment: ", "you must add your fragment");
         }
@@ -52,5 +62,14 @@ public class MainActivity extends BaseActivityFragmentContainer implements MainA
         navigateToFragment(
             createFragment(DISCIPLINES_LIST_FRAGMENT, null),
             DisciplinesFragment.TAG);
+    }
+
+    @Override
+    public void navigateToThemes(BaseModel model) {
+        Bundle args = new Bundle();
+        args.putSerializable(THEME_MODEL, model);
+        navigateToFragmentWithAddToBackStack(
+            createFragment(THEMES_LIST_FRAGMENT, args), ThemesFragment.TAG);
+
     }
 }

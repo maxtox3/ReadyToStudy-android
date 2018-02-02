@@ -116,8 +116,8 @@ public class AuthFragment extends MviFragment<AuthView, AuthPresenter> implement
     public void render(BaseViewState state) {
         if (state instanceof AuthViewState.LoadingState) {
             renderLoading();
-        } else if (state instanceof AuthViewState.DataState) {
-            renderData(((AuthViewState.DataState) state).getViewObject());
+        } else if (state instanceof BaseViewState.DataStateBase) {
+            renderData(((BaseViewState.DataStateBase) state).getViewObject());
         } else if (state instanceof AuthViewState.ErrorState) {
             renderError(((BaseViewState.ErrorState) state).getError());
         } else if (state instanceof AuthViewState.FieldErrorState) {

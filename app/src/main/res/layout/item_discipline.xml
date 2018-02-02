@@ -2,13 +2,10 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     cardCornerRadius="2dp"
-    cardPreventCornerOverlap="true"
-    layout_constraintEnd_toEndOf="parent"
-    layout_constraintStart_toStartOf="parent"
-    layout_constraintTop_toTopOf="parent"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="8dp"
     android:foreground="?android:attr/selectableItemBackground">
 
     <TextView
@@ -16,7 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:maxLines="3"
         android:padding="4dp"
-        android:textAlignment="center"/>
+        android:text="edsfvserdbverdsvs"/>
 
 </android.support.v7.widget.CardView>

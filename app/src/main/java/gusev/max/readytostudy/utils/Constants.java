@@ -17,6 +17,7 @@ public class Constants {
     public static final String AUTH_FRAGMENT = "AuthFragment";
     public static final String SIGN_UP_FRAGMENT = "SignUpFragment";
     public static final String DISCIPLINES_LIST_FRAGMENT = "DisciplinesFragment";
+    public static final String THEMES_LIST_FRAGMENT = "ThemesFragment";
 //    public static final String DISCIPLINES_LIST_FRAGMENT = "DisciplinesListFragment";
 
 //    public static final String AUTH_FRAGMENT = "AuthFragment";

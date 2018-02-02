@@ -1,5 +1,6 @@
 package gusev.max.readytostudy.presentation.main.disciplines;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,29 +24,45 @@ import gusev.max.readytostudy.App;
 import gusev.max.readytostudy.R;
 import gusev.max.readytostudy.domain.model.DisciplineModel;
 import gusev.max.readytostudy.domain.model.ThemeModel;
+import gusev.max.readytostudy.presentation.base.BaseModel;
 import gusev.max.readytostudy.presentation.base.BaseViewState;
-import gusev.max.readytostudy.presentation.viewholder.ThemeViewHolder;
+import gusev.max.readytostudy.presentation.main.MainActivityCallback;
+import gusev.max.readytostudy.presentation.main.MainAdapter;
+import gusev.max.readytostudy.presentation.main.TopAdapter;
+import gusev.max.readytostudy.presentation.viewholder.MainViewHolder;
 import io.reactivex.Observable;
 
 /**
  * Created by v on 28/01/2018.
  */
 
-public class DisciplinesFragment extends MviFragment<DisciplinesListView, DisciplinesListPresenter> implements DisciplinesListView, ThemeViewHolder.ThemeClickListener {
+public class DisciplinesFragment extends MviFragment<DisciplinesListView, DisciplinesListPresenter> implements DisciplinesListView, MainViewHolder.MainClickListener {
 
     public static final String TAG = DisciplinesFragment.class.getName();
-    @BindView(R.id.disciplines_recycler)
+    @BindView(R.id.top_recycler)
     RecyclerView disciplinesRecycler;
-    @BindView(R.id.themes_recycler)
+    @BindView(R.id.main_recycler)
     RecyclerView themesRecycler;
     @BindView(R.id.error_view)
     TextView errorView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
+    private Long selectedDisciplineId = -1L;
     private Unbinder unbinder;
-    private DisciplinesAdapter disciplinesAdapter;
-    private ThemesAdapter themesAdapter;
+    private TopAdapter<DisciplineModel> disciplinesAdapter;
+    private MainAdapter<ThemeModel> themesAdapter;
+    private MainActivityCallback activityCallback;
+
+    @Override
+    public void onAttach(Context context) {
+        try {
+            activityCallback = (MainActivityCallback) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement activityCallback");
+        }
+        super.onAttach(context);
+    }
 
     @Nullable
     @Override
@@ -67,13 +84,13 @@ public class DisciplinesFragment extends MviFragment<DisciplinesListView, Discip
     }
 
     private void setupWidgets() {
-        disciplinesAdapter = new DisciplinesAdapter(LayoutInflater.from(getActivity()));
+        disciplinesAdapter = new TopAdapter<>(LayoutInflater.from(getActivity()));
         disciplinesRecycler.setAdapter(disciplinesAdapter);
         disciplinesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),
             LinearLayoutManager.HORIZONTAL,
             false));
 
-        themesAdapter = new ThemesAdapter(LayoutInflater.from(getActivity()), this);
+        themesAdapter = new MainAdapter<>(LayoutInflater.from(getActivity()), this);
         themesRecycler.setAdapter(themesAdapter);
         themesRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -95,7 +112,8 @@ public class DisciplinesFragment extends MviFragment<DisciplinesListView, Discip
     }
 
     private void setSelectedDiscipline(Long disciplineId) {
-//        return 0L;
+        this.selectedDisciplineId = disciplineId;
+        disciplinesAdapter.setSelectedModel(disciplineId);
     }
 
     @Override
@@ -129,11 +147,11 @@ public class DisciplinesFragment extends MviFragment<DisciplinesListView, Discip
         errorView.setVisibility(View.VISIBLE);
         errorView.setText(error.getMessage());
         progressBar.setVisibility(View.GONE);
-//        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onThemeClick(ThemeModel model) {
-
+    public void onMainModelClick(BaseModel model) {
+        activityCallback.navigateToThemes(model);
+//        Log.i(TAG, model.getId().toString());
     }
 }

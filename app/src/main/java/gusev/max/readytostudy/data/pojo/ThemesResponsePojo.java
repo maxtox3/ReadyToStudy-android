@@ -6,13 +6,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 import gusev.max.readytostudy.data.entity.DisciplineEntity;
+import gusev.max.readytostudy.data.entity.TestEntity;
 import gusev.max.readytostudy.data.entity.ThemeEntity;
 
 /**
- * Created by v on 28/01/2018.
+ * Created by v on 01/02/2018.
  */
 
-public class MainResponsePojo {
+public class ThemesResponsePojo {
 
     @SerializedName("error")
     @Expose
@@ -22,10 +23,13 @@ public class MainResponsePojo {
     private String status;
     @SerializedName("disciplines")
     @Expose
-    private List<DisciplineEntity> disciplines = null;
+    private DisciplineEntity discipline = null;
     @SerializedName("themes")
     @Expose
     private List<ThemeEntity> themes = null;
+    @SerializedName("tests")
+    @Expose
+    private List<TestEntity> tests = null;
 
     public String getError() {
         return error;
@@ -43,12 +47,12 @@ public class MainResponsePojo {
         this.status = status;
     }
 
-    public List<DisciplineEntity> getDisciplines() {
-        return disciplines;
+    public DisciplineEntity getDisciplines() {
+        return discipline;
     }
 
-    public void setDisciplines(List<DisciplineEntity> disciplines) {
-        this.disciplines = disciplines;
+    public void setDisciplines(DisciplineEntity disciplines) {
+        this.discipline = disciplines;
     }
 
     public List<ThemeEntity> getThemes() {
@@ -57,5 +61,13 @@ public class MainResponsePojo {
 
     public void setThemes(List<ThemeEntity> themes) {
         this.themes = themes;
+    }
+
+    public List<TestEntity> getTests() {
+        return tests;
+    }
+
+    public void setTests(List<TestEntity> tests) {
+        this.tests = tests;
     }
 }

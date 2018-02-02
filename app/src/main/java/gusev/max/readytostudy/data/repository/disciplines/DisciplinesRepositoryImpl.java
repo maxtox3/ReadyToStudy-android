@@ -41,11 +41,11 @@ public class DisciplinesRepositoryImpl implements DisciplinesRepository {
     public Observable<List<ThemeEntity>> getThemesByDisciplineId(String token, Long disciplineId) {
         return api.getThemesByDisciplineId(StringService.buildTokenString(token), disciplineId)
                   .toObservable()
-                  .flatMap(mainResponsePojo -> {
-                      if (mainResponsePojo.getError() != null) {
-                          return Observable.error(new Throwable(mainResponsePojo.getError()));
+                  .flatMap(themesResponsePojo -> {
+                      if (themesResponsePojo.getError() != null) {
+                          return Observable.error(new Throwable(themesResponsePojo.getError()));
                       }
-                      return Observable.just(mainResponsePojo.getThemes());
+                      return Observable.just(themesResponsePojo.getThemes());
                   });
     }
 }

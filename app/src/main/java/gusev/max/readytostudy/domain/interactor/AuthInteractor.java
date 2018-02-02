@@ -47,7 +47,7 @@ public class AuthInteractor {
                 .login(email, password)
                 .map(entity -> mapper.transformUser(entity))
                 .doOnNext(userModel -> helper.saveToken(userModel.getToken()))
-                .map(AuthViewState.DataState::new)
+                .map(AuthViewState.DataStateBase::new)
                 .cast(BaseViewState.class)
                 .startWith(new AuthViewState.LoadingState())
                 .onErrorReturn(AuthViewState.ErrorState::new);
@@ -82,7 +82,7 @@ public class AuthInteractor {
                 .signup(model.getName(), model.getEmail(), model.getPassword(), model.getGroupId())
                 .map(entity -> mapper.transformUser(entity))
                 .doOnNext(userModel -> helper.saveToken(userModel.getToken()))
-                .map(SignUpViewState.DataState::new)
+                .map(SignUpViewState.DataStateBase::new)
                 .cast(BaseViewState.class)
                 .startWith(new SignUpViewState.LoadingState())
                 .onErrorReturn(SignUpViewState.ErrorState::new);

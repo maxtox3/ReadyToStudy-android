@@ -48,7 +48,22 @@ public abstract class BaseActivityFragmentContainer extends AppCompatActivity im
     }
 
     protected void navigateToFragment(Fragment fragment, String tag) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager()
+            .beginTransaction()
+            .setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        checkHideFragment(transaction);
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
+            replace(transaction, fragment, tag);
+        } else {
+            add(transaction, fragment, tag);
+        }
+    }
+
+    protected void navigateToFragmentWithAddToBackStack(Fragment fragment, String tag) {
+        FragmentTransaction transaction = getSupportFragmentManager()
+            .beginTransaction()
+            .setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .addToBackStack(null);
         checkHideFragment(transaction);
         if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
             replace(transaction, fragment, tag);
@@ -73,7 +88,7 @@ public abstract class BaseActivityFragmentContainer extends AppCompatActivity im
         currentTag = tag;
     }
 
-    protected void addDisposable(Disposable disposable){
+    protected void addDisposable(Disposable disposable) {
         this.disposable.add(disposable);
     }
 

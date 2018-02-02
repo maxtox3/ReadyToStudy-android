@@ -1,6 +1,7 @@
 package gusev.max.readytostudy.data.api;
 
-import gusev.max.readytostudy.data.pojo.MainResponsePojo;
+import gusev.max.readytostudy.data.pojo.DisciplinesResponsePojo;
+import gusev.max.readytostudy.data.pojo.ThemesResponsePojo;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -13,9 +14,9 @@ import retrofit2.http.Path;
 public interface DisciplinesApi {
 
     @GET("disciplines")
-    Single<MainResponsePojo> getDisciplines(@Header("Authorization") String token);
+    Single<DisciplinesResponsePojo> getDisciplines(@Header("Authorization") String token);
 
-    @GET("discipline/{id}")
-    Single<MainResponsePojo> getThemesByDisciplineId(
+    @GET("disciplines/{id}")
+    Single<ThemesResponsePojo> getThemesByDisciplineId(
         @Header("Authorization") String token, @Path("id") Long disciplineId);
 }

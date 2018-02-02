@@ -20,4 +20,6 @@
     <string name="error_110">Неправильный email или пароль</string>
     <string name="error_general">К сожалению, произошла ошибка</string>
     <string name="error_401">unauthorized</string>
+    <string name="available_disciplines">Доступные дисциплины</string>
+    <string name="tests_title">Тесты</string>
 </resources>

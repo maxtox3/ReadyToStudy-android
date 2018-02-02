@@ -6,21 +6,27 @@ import gusev.max.readytostudy.BuildConfig;
 import gusev.max.readytostudy.data.api.AuthApi;
 import gusev.max.readytostudy.data.api.DisciplinesApi;
 import gusev.max.readytostudy.data.api.LoggingInterceptor;
+import gusev.max.readytostudy.data.api.ThemesApi;
 import gusev.max.readytostudy.data.repository.auth.AuthRepository;
 import gusev.max.readytostudy.data.repository.auth.AuthRepositoryImpl;
 import gusev.max.readytostudy.data.repository.disciplines.DisciplinesRepository;
 import gusev.max.readytostudy.data.repository.disciplines.DisciplinesRepositoryImpl;
+import gusev.max.readytostudy.data.repository.themes.ThemesRepository;
+import gusev.max.readytostudy.data.repository.themes.ThemesRepositoryImpl;
 import gusev.max.readytostudy.domain.interactor.AuthInteractor;
 import gusev.max.readytostudy.domain.interactor.DisciplineInteractor;
+import gusev.max.readytostudy.domain.interactor.ThemeInteractor;
 import gusev.max.readytostudy.domain.mapper.AuthMapper;
 import gusev.max.readytostudy.domain.mapper.DisciplineEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.GroupEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.MainMapper;
+import gusev.max.readytostudy.domain.mapper.TestEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.ThemeEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.UserEntityToModelMapper;
 import gusev.max.readytostudy.presentation.auth.login.AuthPresenter;
 import gusev.max.readytostudy.presentation.auth.signup.SignUpPresenter;
 import gusev.max.readytostudy.presentation.main.disciplines.DisciplinesListPresenter;
+import gusev.max.readytostudy.presentation.main.themes.ThemesListPresenter;
 import gusev.max.readytostudy.utils.SharedPrefManager;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -32,8 +38,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class DependencyInjection {
-
-    private final String SHARED_PATH = "RTS";
 
     private final LoggingInterceptor httpLogger = new LoggingInterceptor();
 
@@ -52,20 +56,25 @@ public class DependencyInjection {
     //<----------------------api---------------------->
     private final AuthApi authApi = retrofit.create(AuthApi.class);
     private final DisciplinesApi disciplinesApi = retrofit.create(DisciplinesApi.class);
+    private final ThemesApi themesApi = retrofit.create(ThemesApi.class);
 
 
     //<----------------------repository---------------------->
     private final AuthRepository authRepository = new AuthRepositoryImpl(authApi);
+    private final DisciplinesRepository disciplinesRepository = new DisciplinesRepositoryImpl(
+        disciplinesApi);
+    private final ThemesRepository themesRepository = new ThemesRepositoryImpl(themesApi);
 
     private AuthRepository getAuthRepository() {
         return authRepository;
     }
 
-    private final DisciplinesRepository disciplinesRepository = new DisciplinesRepositoryImpl(
-        disciplinesApi);
-
     private DisciplinesRepository getDisciplinesRepository() {
         return disciplinesRepository;
+    }
+
+    private ThemesRepository getThemesRepository(){
+        return themesRepository;
     }
 
 
@@ -81,8 +90,9 @@ public class DependencyInjection {
 
     private final DisciplineEntityToModelMapper disciplineEntityToModelMapper = new DisciplineEntityToModelMapper();
     private ThemeEntityToModelMapper themeEntityToModelMapper = new ThemeEntityToModelMapper();
+    private TestEntityToModelMapper testEntityToModelMapper = new TestEntityToModelMapper();
     private MainMapper mainMapper = new MainMapper(disciplineEntityToModelMapper,
-        themeEntityToModelMapper);
+        themeEntityToModelMapper, testEntityToModelMapper);
 
     private MainMapper getMainMapper() {
         return mainMapper;
@@ -105,12 +115,21 @@ public class DependencyInjection {
         getAuthRepository(),
         getPrefManager());
 
+    private ThemeInteractor themesInteractor = new ThemeInteractor(getThemesRepository(),
+        getMainMapper(),
+        getPrefManager(),
+        getAuthRepository());
+
     public AuthInteractor getAuthInteractor() {
         return authInteractor;
     }
 
     public DisciplineInteractor getDisciplinesInteractor() {
         return disciplineInteractor;
+    }
+
+    public ThemeInteractor getThemesInteractor() {
+        return themesInteractor;
     }
 
 
@@ -125,5 +144,9 @@ public class DependencyInjection {
 
     public DisciplinesListPresenter newDispciplinesListPresenter() {
         return new DisciplinesListPresenter(getDisciplinesInteractor());
+    }
+
+    public ThemesListPresenter newThemesListPresenter() {
+        return new ThemesListPresenter(getThemesInteractor());
     }
 }

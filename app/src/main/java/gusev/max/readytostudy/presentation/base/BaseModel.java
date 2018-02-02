@@ -9,4 +9,20 @@ import java.io.Serializable;
 public class BaseModel implements Serializable {
 
     public static String BASE_MODEL = "BASE_MODEL";
+
+    private final Long id;
+    private final String name;
+
+    public BaseModel(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
