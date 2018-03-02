@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
+    android:background="@color/colorPrimaryLightDark"
     android:fitsSystemWindows="true"
     >
 
@@ -12,8 +12,9 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/colorPrimary"
         android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         >
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -21,10 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:title="Темы"
             >
 
@@ -36,19 +37,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:padding="4dp"
-                    android:textSize="@dimen/text.15"
-                    android:text="@string/available_disciplines"/>
+                    android:text="@string/available_disciplines"
+                    android:textSize="@dimen/text.15"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/top_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:padding="4dp"/>
             </LinearLayout>
 
@@ -80,12 +81,12 @@
             <include layout="@layout/include_error_view"/>
 
             <android.support.v7.widget.RecyclerView
-            android:id="@+id/main_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"/>
+                android:id="@+id/main_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"/>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
@@ -103,49 +104,5 @@
         />
 
 </android.support.design.widget.CoordinatorLayout>
-
-
-
-    <!--<android.support.v4.widget.NestedScrollView-->
-        <!--behavior_overlapTop="78dp"-->
-        <!--layout_behavior="@string/appbar_scrolling_view_behavior"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:scrollbars="none"-->
-        <!--&gt;-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<include layout="@layout/include_error_view"/>-->
-
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/themes_recycler"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_marginBottom="8dp"-->
-                <!--android:layout_marginEnd="8dp"-->
-                <!--android:layout_marginStart="8dp"/>-->
-
-            <!--<ProgressBar-->
-                <!--android:id="@+id/progress_bar"-->
-                <!--style="@style/Widget.AppCompat.ProgressBar"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_margin="16dp"-->
-                <!--android:indeterminate="true"-->
-                <!--android:visibility="gone"-->
-                <!--/>-->
-
-        <!--</LinearLayout>-->
-
-    <!--</android.support.v4.widget.NestedScrollView>-->
-
-<!--</android.support.design.widget.CoordinatorLayout>-->
-    <!--android:layout_below="@+id/disciplines_recycler"-->
 
 

@@ -16,8 +16,12 @@ public class Constants {
     //fragmentsNames
     public static final String AUTH_FRAGMENT = "AuthFragment";
     public static final String SIGN_UP_FRAGMENT = "SignUpFragment";
+
     public static final String DISCIPLINES_LIST_FRAGMENT = "DisciplinesFragment";
     public static final String THEMES_LIST_FRAGMENT = "ThemesFragment";
+
+    public static final String TEST_INFO_FRAGMENT = "TestInfoFragment";
+    public static final String TASK_FRAGMENT = "TasksFragment";
 //    public static final String DISCIPLINES_LIST_FRAGMENT = "DisciplinesListFragment";
 
 //    public static final String AUTH_FRAGMENT = "AuthFragment";

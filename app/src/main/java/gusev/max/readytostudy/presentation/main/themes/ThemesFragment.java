@@ -1,6 +1,7 @@
 package gusev.max.readytostudy.presentation.main.themes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +27,10 @@ import gusev.max.readytostudy.App;
 import gusev.max.readytostudy.R;
 import gusev.max.readytostudy.domain.model.TestModel;
 import gusev.max.readytostudy.domain.model.ThemeModel;
-import gusev.max.readytostudy.presentation.base.BaseModel;
 import gusev.max.readytostudy.presentation.base.BaseViewState;
 import gusev.max.readytostudy.presentation.main.MainActivityCallback;
 import gusev.max.readytostudy.presentation.main.MainAdapter;
+import gusev.max.readytostudy.presentation.test.TestActivity;
 import gusev.max.readytostudy.presentation.viewholder.MainViewHolder;
 import io.reactivex.Observable;
 
@@ -39,7 +39,7 @@ import static gusev.max.readytostudy.domain.model.ThemeModel.THEME_MODEL;
 /**
  * Created by v on 01/02/2018.
  */
-public class ThemesFragment extends MviFragment<ThemesListView, ThemesListPresenter> implements ThemesListView, MainViewHolder.MainClickListener {
+public class ThemesFragment extends MviFragment<ThemesListView, ThemesListPresenter> implements ThemesListView, MainViewHolder.MainClickListener<TestModel> {
 
     public static final String TAG = ThemesFragment.class.getName();
     @BindView(R.id.main_recycler)
@@ -100,10 +100,7 @@ public class ThemesFragment extends MviFragment<ThemesListView, ThemesListPresen
     private void setupWidgets() {
         //todo грузануть картинку темы и добавить ее
         toolbar.setNavigationOnClickListener(v -> {
-            if (activityCallback != null) {
-                //todo popBackStack();
-                getActivity().onBackPressed();
-            }
+            getActivity().onBackPressed();
         });
         collapsing.setTitle(theme.getName());
 
@@ -127,7 +124,7 @@ public class ThemesFragment extends MviFragment<ThemesListView, ThemesListPresen
     public void render(BaseViewState state) {
         if (state instanceof ThemesViewState.LoadingState) {
             renderLoading();
-        } else if (state instanceof BaseViewState.DataState) {
+        } else if (state instanceof ThemesViewState.DataState) {
             renderData(((BaseViewState.DataState) state).getViewObject());
         } else if (state instanceof ThemesViewState.ErrorState) {
             renderError(((ThemesViewState.ErrorState) state).getError());
@@ -144,6 +141,7 @@ public class ThemesFragment extends MviFragment<ThemesListView, ThemesListPresen
     }
 
     private void renderLoading() {
+        errorView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -154,7 +152,9 @@ public class ThemesFragment extends MviFragment<ThemesListView, ThemesListPresen
     }
 
     @Override
-    public void onMainModelClick(BaseModel model) {
-        Log.i(TAG, model.getId().toString());
+    public void onMainModelClick(TestModel model) {
+        Intent intent = new Intent(getContext(), TestActivity.class);
+        intent.putExtra(TestModel.TEST_MODEL, model);
+        startActivity(intent);
     }
 }

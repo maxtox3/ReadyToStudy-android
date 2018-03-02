@@ -8,7 +8,7 @@ import gusev.max.readytostudy.presentation.base.BaseModel;
 
 public class UserModel extends BaseModel {
 
-    public static final String USER_MODEL = "USER_MODEL";
+    public static final String USER_MODEL = UserModel.class.getName();
 
     private final String token;
     private final String email;

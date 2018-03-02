@@ -22,4 +22,6 @@
     <string name="error_401">unauthorized</string>
     <string name="available_disciplines">Доступные дисциплины</string>
     <string name="tests_title">Тесты</string>
+    <string name="start">Начать</string>
+    <string name="proceed">Продолжить</string>
 </resources>

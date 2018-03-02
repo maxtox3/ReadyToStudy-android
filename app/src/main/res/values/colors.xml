@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#343a40</color>
-    <color name="colorPrimaryDark">#22252C</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--<color name="colorPrimary">#343a40</color>-->
+    <!--<color name="colorPrimaryDark">#22252C</color>-->
+    <!--<color name="colorAccent">#2196F3</color>-->
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimaryLightDark">#303030</color>
+    <color name="colorPrimaryLight">#424242</color>
+
+    <color name="colorAccent">#1891D4</color>
     <color name="white">#FFFFFF</color>
 
     <color name="loginColorAccent">#1891D4</color>
@@ -11,4 +17,13 @@
     <color name="loginBackgroundColor">#22252C</color>
     <color name="blackTransperent">#9c000000</color>
     <color name="loginTextColorForgot">#757677</color>
+    <color name="color_accent_light">#64B5F6</color>
+    <color name="color_accent_dark">#1976D2</color>
+
+    <color name="default_light">#E0E0E0</color>
+    <color name="default_normal">#9E9E9E</color>
+    <color name="default_dark">#616161</color>
+
+    <color name="answer_pressed">#757575</color>
+    <color name="main_blur">#80282828</color>
 </resources>

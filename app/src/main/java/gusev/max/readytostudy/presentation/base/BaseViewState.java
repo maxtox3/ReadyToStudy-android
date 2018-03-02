@@ -48,7 +48,7 @@ public interface BaseViewState {
         }
     }
 
-    final class DataState<T> implements BaseViewState{
+    final class DataState<T extends Object> implements BaseViewState{
         private final T viewObject;
 
         public DataState(T viewObject) {

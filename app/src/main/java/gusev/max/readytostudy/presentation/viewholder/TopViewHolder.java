@@ -26,7 +26,7 @@ public class TopViewHolder<M extends BaseModel> extends RecyclerView.ViewHolder 
             listener);
     }
 
-    @BindView(R.id.discipline_name)
+    @BindView(R.id.top_name)
     TextView name;
 
     private M model;

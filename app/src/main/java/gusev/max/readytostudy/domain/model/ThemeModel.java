@@ -8,7 +8,7 @@ import gusev.max.readytostudy.presentation.base.BaseModel;
 
 public class ThemeModel extends BaseModel {
 
-    public static final String THEME_MODEL = "THEME_MODEL";
+    public static final String THEME_MODEL = ThemeModel.class.getName();
 
     private final Long disciplineId;
 

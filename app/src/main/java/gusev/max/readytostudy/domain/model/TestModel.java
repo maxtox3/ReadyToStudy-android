@@ -8,6 +8,8 @@ import gusev.max.readytostudy.presentation.base.BaseModel;
 
 public class TestModel extends BaseModel {
 
+    public static final String TEST_MODEL = TestModel.class.getName();
+
     private final Long themeId;
 
     public TestModel(Long id, String name, Long themeId) {

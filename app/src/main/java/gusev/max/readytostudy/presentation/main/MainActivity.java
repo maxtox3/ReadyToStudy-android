@@ -31,11 +31,6 @@ public class MainActivity extends BaseActivityFragmentContainer implements MainA
     }
 
     @Override
-    protected void restoreFragment(String tag) {
-        createFragment(tag, null);
-    }
-
-    @Override
     public void setContainerId() {
         setContainerId(R.id.fragment_container);
     }
@@ -46,11 +41,7 @@ public class MainActivity extends BaseActivityFragmentContainer implements MainA
             case DISCIPLINES_LIST_FRAGMENT:
                 return new DisciplinesFragment();
             case THEMES_LIST_FRAGMENT:
-                if(getSupportFragmentManager().findFragmentByTag(ThemesFragment.TAG) != null){
-                    return getSupportFragmentManager().findFragmentByTag(ThemesFragment.TAG);
-                } else {
                     return ThemesFragment.newInstance(args);
-                }
             default:
                 Log.i("createFragment: ", "you must add your fragment");
         }
@@ -59,17 +50,20 @@ public class MainActivity extends BaseActivityFragmentContainer implements MainA
 
     @Override
     public void navigateToDisciplines() {
-        navigateToFragment(
-            createFragment(DISCIPLINES_LIST_FRAGMENT, null),
-            DisciplinesFragment.TAG);
+        navigateToFragment(DISCIPLINES_LIST_FRAGMENT, null, false);
+        setCurrentTag(DISCIPLINES_LIST_FRAGMENT);
     }
 
     @Override
     public void navigateToThemes(BaseModel model) {
         Bundle args = new Bundle();
         args.putSerializable(THEME_MODEL, model);
-        navigateToFragmentWithAddToBackStack(
-            createFragment(THEMES_LIST_FRAGMENT, args), ThemesFragment.TAG);
+        navigateToFragment(THEMES_LIST_FRAGMENT, args,true);
+        setCurrentTag(THEMES_LIST_FRAGMENT);
+    }
 
+    @Override
+    public void onBackPressedInFragment() {
+        super.onBackPressed();
     }
 }

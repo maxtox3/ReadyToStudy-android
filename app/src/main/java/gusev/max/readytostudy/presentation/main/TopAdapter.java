@@ -5,9 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
+import gusev.max.readytostudy.R;
 import gusev.max.readytostudy.presentation.base.BaseModel;
 import gusev.max.readytostudy.presentation.viewholder.TopViewHolder;
 import io.reactivex.Observable;
@@ -19,8 +21,8 @@ import io.reactivex.subjects.PublishSubject;
 
 public class TopAdapter<M extends BaseModel> extends RecyclerView.Adapter<TopViewHolder<M>> implements TopViewHolder.TopClickListener<M> {
 
-    private final String YELLOW = "#EC407A";
-    private final String WHITE = "#FFFFFF";
+    private final String LIGHT_BLUE = "#1E88E5";
+    private final String WHITE = "#808080";
 
     private final LayoutInflater layoutInflater;
     private List<M> models;
@@ -38,11 +40,11 @@ public class TopAdapter<M extends BaseModel> extends RecyclerView.Adapter<TopVie
 
     @Override
     public void onBindViewHolder(TopViewHolder<M> holder, int position) {
-
+        TextView btn = holder.itemView.findViewById(R.id.top_name);
         if (position == positionSelected) {
-            holder.itemView.setBackgroundColor(Color.parseColor(YELLOW));
+            btn.setTextColor(Color.parseColor(LIGHT_BLUE));
         } else {
-            holder.itemView.setBackgroundColor(Color.parseColor(WHITE));
+            btn.setTextColor(Color.parseColor(WHITE));
         }
 
         holder.bind(models.get(position));

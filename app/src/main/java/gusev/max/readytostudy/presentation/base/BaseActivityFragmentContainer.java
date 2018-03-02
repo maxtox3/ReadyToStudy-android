@@ -40,6 +40,15 @@ public abstract class BaseActivityFragmentContainer extends AppCompatActivity im
     }
 
     @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStackImmediate();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         if (currentTag != null) {
             outState.putString(SAVED_FRAGMENT_TAG, currentTag);
@@ -47,45 +56,22 @@ public abstract class BaseActivityFragmentContainer extends AppCompatActivity im
         super.onSaveInstanceState(outState);
     }
 
-    protected void navigateToFragment(Fragment fragment, String tag) {
-        FragmentTransaction transaction = getSupportFragmentManager()
-            .beginTransaction()
-            .setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        checkHideFragment(transaction);
+    protected void navigateToFragment(String tag, Bundle args, boolean addToBackStack) {
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        if (addToBackStack) {
+            transaction.setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            transaction.addToBackStack(null);
+        }
+        //проверяем, есть ли переданный таг внутри манагера
+        //если есть то просто его возвращаем, нет - создаем
         if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
-            replace(transaction, fragment, tag);
+            replace(transaction, getSupportFragmentManager().findFragmentByTag(tag), tag);
         } else {
+            Fragment fragment = createFragment(tag, args);
             add(transaction, fragment, tag);
         }
-    }
-
-    protected void navigateToFragmentWithAddToBackStack(Fragment fragment, String tag) {
-        FragmentTransaction transaction = getSupportFragmentManager()
-            .beginTransaction()
-            .setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .addToBackStack(null);
-        checkHideFragment(transaction);
-        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
-            replace(transaction, fragment, tag);
-        } else {
-            add(transaction, fragment, tag);
-        }
-    }
-
-    private void checkHideFragment(FragmentTransaction transaction) {
-        if (currentTag != null) {
-            transaction.hide(getSupportFragmentManager().findFragmentByTag(currentTag));
-        }
-    }
-
-    private void replace(FragmentTransaction transaction, Fragment fragment, String tag) {
-        transaction.add(containerId, fragment, tag).commit();
-        currentTag = tag;
-    }
-
-    private void add(FragmentTransaction transaction, Fragment fragment, String tag) {
-        transaction.replace(containerId, fragment, tag).commit();
-        currentTag = tag;
     }
 
     protected void addDisposable(Disposable disposable) {
@@ -98,7 +84,24 @@ public abstract class BaseActivityFragmentContainer extends AppCompatActivity im
 
     protected abstract Fragment createFragment(String tag, Bundle args);
 
-    protected abstract void restoreFragment(String tag);
+    private void restoreFragment(String tag) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
+            replace(transaction, getSupportFragmentManager().findFragmentByTag(tag), tag);
+        }
+    }
+
+    protected void setCurrentTag(String tag) {
+        currentTag = tag;
+    }
+
+    private void replace(FragmentTransaction transaction, Fragment fragment, String tag) {
+        transaction.replace(containerId, fragment, tag).commit();
+    }
+
+    private void add(FragmentTransaction transaction, Fragment fragment, String tag) {
+        transaction.add(containerId, fragment, tag).commit();
+    }
 }
 
 

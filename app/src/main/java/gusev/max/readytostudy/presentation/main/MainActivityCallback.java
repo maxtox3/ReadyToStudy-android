@@ -11,4 +11,6 @@ public interface MainActivityCallback {
     void navigateToDisciplines();
 
     void navigateToThemes(BaseModel model);
+
+    void onBackPressedInFragment();
 }

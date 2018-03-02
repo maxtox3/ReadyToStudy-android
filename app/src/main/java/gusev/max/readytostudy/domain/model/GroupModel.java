@@ -8,7 +8,7 @@ import gusev.max.readytostudy.presentation.base.BaseModel;
 
 public class GroupModel extends BaseModel {
 
-    public final static String GROUP_MODEL = "GROUP_MODEL";
+    public final static String GROUP_MODEL = GroupModel.class.getName();
     public GroupModel(Long id, String name) {
         super(id, name);
     }

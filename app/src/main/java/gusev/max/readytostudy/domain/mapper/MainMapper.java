@@ -2,12 +2,17 @@ package gusev.max.readytostudy.domain.mapper;
 
 import android.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gusev.max.readytostudy.data.entity.DisciplineEntity;
+import gusev.max.readytostudy.data.entity.TaskEntity;
 import gusev.max.readytostudy.data.entity.TestEntity;
 import gusev.max.readytostudy.data.entity.ThemeEntity;
+import gusev.max.readytostudy.data.pojo.TasksResponsePojo;
 import gusev.max.readytostudy.domain.model.DisciplineModel;
+import gusev.max.readytostudy.domain.model.TaskModel;
+import gusev.max.readytostudy.domain.model.TasksModel;
 import gusev.max.readytostudy.domain.model.TestModel;
 import gusev.max.readytostudy.domain.model.ThemeModel;
 import io.reactivex.Observable;
@@ -21,14 +26,17 @@ public class MainMapper {
     private DisciplineEntityToModelMapper disciplineMapper;
     private ThemeEntityToModelMapper themeMapper;
     private TestEntityToModelMapper testMapper;
+    private TaskEntityToModelMapper taskMapper;
 
     public MainMapper(
         DisciplineEntityToModelMapper disciplineMapper,
         ThemeEntityToModelMapper themeMapper,
-        TestEntityToModelMapper testMapper) {
+        TestEntityToModelMapper testMapper,
+        TaskEntityToModelMapper taskMapper) {
         this.disciplineMapper = disciplineMapper;
         this.themeMapper = themeMapper;
         this.testMapper = testMapper;
+        this.taskMapper = taskMapper;
     }
 
     public Pair<List<DisciplineModel>, List<ThemeModel>> transformDisciplinesAndThemesPair(
@@ -68,5 +76,26 @@ public class MainMapper {
             .map(testEntity -> testMapper.apply(testEntity))
             .toList()
             .blockingGet();
+    }
+
+    public List<TaskModel> transformTasks(List<TaskEntity> taskEntities) {
+        return Observable
+            .fromIterable(taskEntities)
+            .map(taskEntity -> taskMapper.apply(taskEntity))
+            .toList()
+            .blockingGet();
+    }
+
+    public TasksModel transformTest(TasksResponsePojo tasksResponsePojo) {
+        TestModel test = new TestModel(
+            tasksResponsePojo.getTest().getId(),
+            tasksResponsePojo.getTest().getName(),
+            tasksResponsePojo.getTest().getThemeId());
+        return new TasksModel(
+            test,
+            transformTasks(tasksResponsePojo.getTasks()),
+            new ArrayList<>(),
+            new ArrayList<>(), passedTask
+        );
     }
 }

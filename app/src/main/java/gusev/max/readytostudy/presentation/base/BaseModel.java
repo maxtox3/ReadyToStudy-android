@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class BaseModel implements Serializable {
 
-    public static String BASE_MODEL = "BASE_MODEL";
+    public static String BASE_MODEL = BaseModel.class.getName();
 
     private final Long id;
     private final String name;

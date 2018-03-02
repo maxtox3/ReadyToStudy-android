@@ -6,20 +6,25 @@ import gusev.max.readytostudy.BuildConfig;
 import gusev.max.readytostudy.data.api.AuthApi;
 import gusev.max.readytostudy.data.api.DisciplinesApi;
 import gusev.max.readytostudy.data.api.LoggingInterceptor;
+import gusev.max.readytostudy.data.api.TestApi;
 import gusev.max.readytostudy.data.api.ThemesApi;
 import gusev.max.readytostudy.data.repository.auth.AuthRepository;
 import gusev.max.readytostudy.data.repository.auth.AuthRepositoryImpl;
 import gusev.max.readytostudy.data.repository.disciplines.DisciplinesRepository;
 import gusev.max.readytostudy.data.repository.disciplines.DisciplinesRepositoryImpl;
+import gusev.max.readytostudy.data.repository.tests.TestRepository;
+import gusev.max.readytostudy.data.repository.tests.TestRepositoryImpl;
 import gusev.max.readytostudy.data.repository.themes.ThemesRepository;
 import gusev.max.readytostudy.data.repository.themes.ThemesRepositoryImpl;
 import gusev.max.readytostudy.domain.interactor.AuthInteractor;
 import gusev.max.readytostudy.domain.interactor.DisciplineInteractor;
+import gusev.max.readytostudy.domain.interactor.TaskInteractor;
 import gusev.max.readytostudy.domain.interactor.ThemeInteractor;
 import gusev.max.readytostudy.domain.mapper.AuthMapper;
 import gusev.max.readytostudy.domain.mapper.DisciplineEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.GroupEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.MainMapper;
+import gusev.max.readytostudy.domain.mapper.TaskEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.TestEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.ThemeEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.UserEntityToModelMapper;
@@ -27,6 +32,7 @@ import gusev.max.readytostudy.presentation.auth.login.AuthPresenter;
 import gusev.max.readytostudy.presentation.auth.signup.SignUpPresenter;
 import gusev.max.readytostudy.presentation.main.disciplines.DisciplinesListPresenter;
 import gusev.max.readytostudy.presentation.main.themes.ThemesListPresenter;
+import gusev.max.readytostudy.presentation.test.task.TasksPresenter;
 import gusev.max.readytostudy.utils.SharedPrefManager;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -57,6 +63,7 @@ public class DependencyInjection {
     private final AuthApi authApi = retrofit.create(AuthApi.class);
     private final DisciplinesApi disciplinesApi = retrofit.create(DisciplinesApi.class);
     private final ThemesApi themesApi = retrofit.create(ThemesApi.class);
+    private final TestApi testApi = retrofit.create(TestApi.class);
 
 
     //<----------------------repository---------------------->
@@ -64,6 +71,7 @@ public class DependencyInjection {
     private final DisciplinesRepository disciplinesRepository = new DisciplinesRepositoryImpl(
         disciplinesApi);
     private final ThemesRepository themesRepository = new ThemesRepositoryImpl(themesApi);
+    private final TestRepository testRepository = new TestRepositoryImpl(testApi);
 
     private AuthRepository getAuthRepository() {
         return authRepository;
@@ -73,8 +81,12 @@ public class DependencyInjection {
         return disciplinesRepository;
     }
 
-    private ThemesRepository getThemesRepository(){
+    private ThemesRepository getThemesRepository() {
         return themesRepository;
+    }
+
+    private TestRepository getTestRepository() {
+        return testRepository;
     }
 
 
@@ -91,8 +103,10 @@ public class DependencyInjection {
     private final DisciplineEntityToModelMapper disciplineEntityToModelMapper = new DisciplineEntityToModelMapper();
     private ThemeEntityToModelMapper themeEntityToModelMapper = new ThemeEntityToModelMapper();
     private TestEntityToModelMapper testEntityToModelMapper = new TestEntityToModelMapper();
+    private TaskEntityToModelMapper taskEntityToModelMapper = new TaskEntityToModelMapper();
     private MainMapper mainMapper = new MainMapper(disciplineEntityToModelMapper,
-        themeEntityToModelMapper, testEntityToModelMapper);
+        themeEntityToModelMapper,
+        testEntityToModelMapper, taskEntityToModelMapper);
 
     private MainMapper getMainMapper() {
         return mainMapper;
@@ -120,6 +134,11 @@ public class DependencyInjection {
         getPrefManager(),
         getAuthRepository());
 
+    private TaskInteractor taskInteractor = new TaskInteractor(getTestRepository(),
+        getMainMapper(),
+        getPrefManager(),
+        getAuthRepository());
+
     public AuthInteractor getAuthInteractor() {
         return authInteractor;
     }
@@ -130,6 +149,10 @@ public class DependencyInjection {
 
     public ThemeInteractor getThemesInteractor() {
         return themesInteractor;
+    }
+
+    public TaskInteractor getTaskInteractor() {
+        return taskInteractor;
     }
 
 
@@ -148,5 +171,9 @@ public class DependencyInjection {
 
     public ThemesListPresenter newThemesListPresenter() {
         return new ThemesListPresenter(getThemesInteractor());
+    }
+
+    public TasksPresenter newTaskPresenter() {
+        return new TasksPresenter(getTaskInteractor());
     }
 }

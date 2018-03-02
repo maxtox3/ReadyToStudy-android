@@ -43,16 +43,12 @@ public class AuthActivity extends BaseActivityFragmentContainer implements AuthA
     }
 
     private void checkAuth() {
-        if(NetworkConnectionCheckUtil.isThereInternetConnection()){
+        if (NetworkConnectionCheckUtil.isThereInternetConnection()) {
             Disposable disposable = interactor
                 .reauth()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(userModel -> {
-                    loggedIn(userModel);
-                }, throwable -> {
-                    navigateToFragment(createFragment(AUTH_FRAGMENT, null), AuthFragment.TAG);
-                });
+                .subscribe(this::loggedIn, throwable -> navigateToAuth());
             addDisposable(disposable);
         } else {
             Toast.makeText(this, "Проверьте ваше интернет соединение", Toast.LENGTH_SHORT).show();
@@ -70,12 +66,14 @@ public class AuthActivity extends BaseActivityFragmentContainer implements AuthA
 
     @Override
     public void navigateToRegister() {
-        navigateToFragment(createFragment(SIGN_UP_FRAGMENT, null), SignUpFragment.TAG);
+        navigateToFragment(SIGN_UP_FRAGMENT, null, false);
+        setCurrentTag(SIGN_UP_FRAGMENT);
     }
 
     @Override
     public void navigateToAuth() {
-        navigateToFragment(createFragment(AUTH_FRAGMENT, null), AuthFragment.TAG);
+        navigateToFragment(AUTH_FRAGMENT, null, false);
+        setCurrentTag(AUTH_FRAGMENT);
     }
 
     @Override
@@ -89,11 +87,6 @@ public class AuthActivity extends BaseActivityFragmentContainer implements AuthA
                 Log.i("createFragment: ", "you must add your fragment");
         }
         return null;
-    }
-
-    @Override
-    protected void restoreFragment(String tag) {
-        createFragment(tag, null);
     }
 
     @Override

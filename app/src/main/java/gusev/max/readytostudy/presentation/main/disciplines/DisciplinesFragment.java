@@ -24,7 +24,6 @@ import gusev.max.readytostudy.App;
 import gusev.max.readytostudy.R;
 import gusev.max.readytostudy.domain.model.DisciplineModel;
 import gusev.max.readytostudy.domain.model.ThemeModel;
-import gusev.max.readytostudy.presentation.base.BaseModel;
 import gusev.max.readytostudy.presentation.base.BaseViewState;
 import gusev.max.readytostudy.presentation.main.MainActivityCallback;
 import gusev.max.readytostudy.presentation.main.MainAdapter;
@@ -36,7 +35,9 @@ import io.reactivex.Observable;
  * Created by v on 28/01/2018.
  */
 
-public class DisciplinesFragment extends MviFragment<DisciplinesListView, DisciplinesListPresenter> implements DisciplinesListView, MainViewHolder.MainClickListener {
+public class DisciplinesFragment extends MviFragment<DisciplinesListView,
+    DisciplinesListPresenter> implements DisciplinesListView, MainViewHolder
+    .MainClickListener<ThemeModel> {
 
     public static final String TAG = DisciplinesFragment.class.getName();
     @BindView(R.id.top_recycler)
@@ -150,8 +151,7 @@ public class DisciplinesFragment extends MviFragment<DisciplinesListView, Discip
     }
 
     @Override
-    public void onMainModelClick(BaseModel model) {
+    public void onMainModelClick(ThemeModel model) {
         activityCallback.navigateToThemes(model);
-//        Log.i(TAG, model.getId().toString());
     }
 }

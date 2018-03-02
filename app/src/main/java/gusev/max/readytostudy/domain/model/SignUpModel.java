@@ -8,7 +8,7 @@ import gusev.max.readytostudy.presentation.base.BaseModel;
 
 public class SignUpModel extends BaseModel {
 
-    public static final String SIGN_UP_MODEL = "SIGN_UP_MODEL";
+    public static final String SIGN_UP_MODEL = SignUpModel.class.getName();
 
     private final String email;
     private final String password;

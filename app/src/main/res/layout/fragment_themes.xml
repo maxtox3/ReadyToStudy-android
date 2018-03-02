@@ -8,6 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="RtlHardcoded"
+    android:background="@color/white"
     >
 
     <android.support.design.widget.AppBarLayout
@@ -20,7 +21,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="200dp"
             app:contentScrim="?colorPrimary"
             app:expandedTitleMarginBottom="94dp"
             app:expandedTitleTextAppearance="@style/CollapsingTextAppearance.Inverse"
@@ -50,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
-        app:behavior_overlapTop="78dp"
+        app:behavior_overlapTop="20dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
 
