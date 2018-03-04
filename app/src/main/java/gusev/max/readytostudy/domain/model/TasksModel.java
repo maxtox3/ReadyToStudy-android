@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TasksModel implements Serializable {
 
-    public static final String TAG = TasksModel.class.getName();
+    public static final String TASKS_MODEL = TasksModel.class.getName();
 
     private final TestModel testModel;
     private final List<TaskModel> tasks;

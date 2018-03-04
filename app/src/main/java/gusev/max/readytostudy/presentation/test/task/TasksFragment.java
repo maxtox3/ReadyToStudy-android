@@ -143,7 +143,7 @@ public class TasksFragment extends MviFragment<TasksView, TasksPresenter> implem
         } else if (state instanceof TasksViewState.DialogState) {
             renderDialog(((TasksViewState.DialogState) state).getViewObject());
         } else if (state instanceof TasksViewState.FinishState) {
-            renderFinish();
+            renderFinish(((TasksViewState.FinishState) state).getViewObject());
         }
     }
 
@@ -193,8 +193,9 @@ public class TasksFragment extends MviFragment<TasksView, TasksPresenter> implem
         }
     }
 
-    private void renderFinish() {
-        activityCallback.onTestFinished();
+    private void renderFinish(TasksModel viewObject) {
+        hideDialog();
+        activityCallback.navigateToTestResult(viewObject);
     }
 
     private Observable<TestModel> getTestModel() {

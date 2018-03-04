@@ -36,8 +36,8 @@ import io.reactivex.Observable;
  */
 
 public class DisciplinesFragment extends MviFragment<DisciplinesListView,
-    DisciplinesListPresenter> implements DisciplinesListView, MainViewHolder
-    .MainClickListener<ThemeModel> {
+        DisciplinesListPresenter> implements DisciplinesListView, MainViewHolder
+        .MainClickListener<ThemeModel> {
 
     public static final String TAG = DisciplinesFragment.class.getName();
     @BindView(R.id.top_recycler)
@@ -68,7 +68,8 @@ public class DisciplinesFragment extends MviFragment<DisciplinesListView,
     @Nullable
     @Override
     public View onCreateView(
-        @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
+    ) {
         View view = inflater.inflate(R.layout.fragment_disciplines, container, false);
         unbinder = ButterKnife.bind(this, view);
         setupWidgets();
@@ -87,9 +88,11 @@ public class DisciplinesFragment extends MviFragment<DisciplinesListView,
     private void setupWidgets() {
         disciplinesAdapter = new TopAdapter<>(LayoutInflater.from(getActivity()));
         disciplinesRecycler.setAdapter(disciplinesAdapter);
-        disciplinesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(),
-            LinearLayoutManager.HORIZONTAL,
-            false));
+        disciplinesRecycler.setLayoutManager(new LinearLayoutManager(
+                getActivity(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+        ));
 
         themesAdapter = new MainAdapter<>(LayoutInflater.from(getActivity()), this);
         themesRecycler.setAdapter(themesAdapter);
@@ -130,24 +133,32 @@ public class DisciplinesFragment extends MviFragment<DisciplinesListView,
 
     private void renderData(Object viewObject) {
         if (viewObject instanceof Pair) {
-            disciplinesAdapter.setData(((Pair<List<DisciplineModel>, List<ThemeModel>>) viewObject).first);
-            themesAdapter.setData(((Pair<List<DisciplineModel>, List<ThemeModel>>) viewObject).second);
+            disciplinesAdapter
+                    .setData(((Pair<List<DisciplineModel>, List<ThemeModel>>) viewObject).first);
+            themesAdapter
+                    .setData(((Pair<List<DisciplineModel>, List<ThemeModel>>) viewObject).second);
         } else if (viewObject instanceof List) {
             themesAdapter.setData((List<ThemeModel>) viewObject);
         }
-
+        disciplinesRecycler.setVisibility(View.VISIBLE);
+        themesRecycler.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         errorView.setVisibility(View.GONE);
     }
 
     private void renderLoading() {
+        disciplinesRecycler.setVisibility(View.GONE);
+        themesRecycler.setVisibility(View.GONE);
+        errorView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
     private void renderError(Throwable error) {
+        progressBar.setVisibility(View.GONE);
+        disciplinesRecycler.setVisibility(View.GONE);
+        themesRecycler.setVisibility(View.GONE);
         errorView.setVisibility(View.VISIBLE);
         errorView.setText(error.getMessage());
-        progressBar.setVisibility(View.GONE);
     }
 
     @Override

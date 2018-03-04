@@ -24,4 +24,8 @@ public class StringService {
     public static String buildCountOfAnswers(TasksModel model) {
         return model.getCountOfPassedTasks() + 1 + "/" + model.getCountOfTasks();
     }
+
+    public static String buildCountOfPassedAnswersSlashAllAnswers(TasksModel model) {
+        return model.getPassedOkTasksIds().size() + "/" + model.getCountOfTasks();
+    }
 }

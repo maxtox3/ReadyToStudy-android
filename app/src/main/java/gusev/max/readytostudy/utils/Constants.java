@@ -22,6 +22,7 @@ public class Constants {
 
     public static final String TEST_INFO_FRAGMENT = "TestInfoFragment";
     public static final String TASK_FRAGMENT = "TasksFragment";
+    public static final String TEST_RESULT_FRAGMENT = "TestResultFragment";
 
     public static final Integer DIALOG_REQUEST_CODE = -8;
 //    public static final String DISCIPLINES_LIST_FRAGMENT = "DisciplinesListFragment";

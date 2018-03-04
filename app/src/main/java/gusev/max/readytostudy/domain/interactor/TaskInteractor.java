@@ -52,7 +52,7 @@ public class TaskInteractor {
                 .just(new TasksViewState.DataState<>(TasksModel.onNextTask(tasksModel)))
                 .flatMap(state -> {
                     if (state.getViewObject() == null) {
-                        return Observable.just(new TasksViewState.FinishState());
+                        return Observable.just(new TasksViewState.FinishState(tasksModel));
                     }
                     return Observable.just(state);
                 });

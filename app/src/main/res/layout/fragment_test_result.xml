@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryLightDark"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/test_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:text="Angular"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text.22"
+            />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/like"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/like"/>
+
+        <LinearLayout
+            android:id="@+id/stars_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/star_first"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/star"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/star_second"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/star"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/star_third"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/star_border"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/answer_count_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:text="10/11"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text.22"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/try_again"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:text="@string/try_again"
+            android:textAlignment="center"
+            android:textColor="@color/color_accent_dark"
+            android:textSize="@dimen/text.17"/>
+
+        <TextView
+            android:id="@+id/finish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:text="@string/finish"
+            android:textAlignment="center"
+            android:textColor="@color/color_accent_dark"
+            android:textSize="@dimen/text.17"/>
+    </LinearLayout>
+
+</FrameLayout>

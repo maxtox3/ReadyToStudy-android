@@ -45,10 +45,10 @@ public class AuthActivity extends BaseActivityFragmentContainer implements AuthA
     private void checkAuth() {
         if (NetworkConnectionCheckUtil.isThereInternetConnection()) {
             Disposable disposable = interactor
-                .reauth()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::loggedIn, throwable -> navigateToAuth());
+                    .reauth()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::loggedIn, throwable -> navigateToAuth());
             addDisposable(disposable);
         } else {
             Toast.makeText(this, "Проверьте ваше интернет соединение", Toast.LENGTH_SHORT).show();

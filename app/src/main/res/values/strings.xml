@@ -24,4 +24,6 @@
     <string name="tests_title">Тесты</string>
     <string name="start">Начать</string>
     <string name="proceed">Продолжить</string>
+    <string name="finish">Закончить</string>
+    <string name="try_again">Попробовать снова</string>
 </resources>

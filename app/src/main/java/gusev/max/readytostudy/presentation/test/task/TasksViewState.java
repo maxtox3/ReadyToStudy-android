@@ -24,5 +24,15 @@ public interface TasksViewState extends BaseViewState {
     }
 
     final class FinishState implements TasksViewState {
+
+        private final TasksModel viewObject;
+
+        public FinishState(TasksModel viewObject) {
+            this.viewObject = viewObject;
+        }
+
+        public TasksModel getViewObject() {
+            return viewObject;
+        }
     }
 }

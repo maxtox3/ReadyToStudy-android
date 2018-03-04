@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivityFragmentContainer implements MainA
             case DISCIPLINES_LIST_FRAGMENT:
                 return new DisciplinesFragment();
             case THEMES_LIST_FRAGMENT:
-                    return ThemesFragment.newInstance(args);
+                return ThemesFragment.newInstance(args);
             default:
                 Log.i("createFragment: ", "you must add your fragment");
         }
@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivityFragmentContainer implements MainA
     public void navigateToThemes(BaseModel model) {
         Bundle args = new Bundle();
         args.putSerializable(THEME_MODEL, model);
-        navigateToFragment(THEMES_LIST_FRAGMENT, args,true);
+        navigateToFragment(THEMES_LIST_FRAGMENT, args, true);
         setCurrentTag(THEMES_LIST_FRAGMENT);
     }
 

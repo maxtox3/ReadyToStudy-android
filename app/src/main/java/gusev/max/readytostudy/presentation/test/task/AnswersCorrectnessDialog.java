@@ -19,6 +19,8 @@ import butterknife.ButterKnife;
 import gusev.max.readytostudy.R;
 import gusev.max.readytostudy.domain.model.TasksModel;
 
+import static gusev.max.readytostudy.domain.model.TasksModel.TASKS_MODEL;
+
 /**
  * Created by v on 02/03/2018.
  */
@@ -46,7 +48,7 @@ public class AnswersCorrectnessDialog extends AppCompatDialogFragment {
     public static Fragment newInstance(TasksModel tasksModel) {
         AnswersCorrectnessDialog f = new AnswersCorrectnessDialog();
         Bundle args = new Bundle();
-        args.putSerializable(TasksModel.TAG, tasksModel);
+        args.putSerializable(TASKS_MODEL, tasksModel);
         f.setArguments(args);
 
         return f;
@@ -72,9 +74,9 @@ public class AnswersCorrectnessDialog extends AppCompatDialogFragment {
         setRetainInstance(true);
         Bundle arguments = getArguments();
         if (arguments != null) {
-            tasksModel = (TasksModel) arguments.getSerializable(TasksModel.TAG);
+            tasksModel = (TasksModel) arguments.getSerializable(TASKS_MODEL);
         } else if (savedInstanceState != null) {
-            tasksModel = (TasksModel) savedInstanceState.getSerializable(TasksModel.TAG);
+            tasksModel = (TasksModel) savedInstanceState.getSerializable(TASKS_MODEL);
         }
     }
 
@@ -101,7 +103,7 @@ public class AnswersCorrectnessDialog extends AppCompatDialogFragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(TasksModel.TAG, tasksModel);
+        outState.putSerializable(TASKS_MODEL, tasksModel);
     }
 
     private void setupWidgets() {
