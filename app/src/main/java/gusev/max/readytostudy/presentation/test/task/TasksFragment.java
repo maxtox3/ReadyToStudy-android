@@ -16,23 +16,21 @@ import android.widget.TextView;
 
 import com.hannesdorfmann.mosby3.mvi.MviFragment;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import gusev.max.readytostudy.App;
 import gusev.max.readytostudy.R;
-import gusev.max.readytostudy.domain.model.PassedTaskModel;
-import gusev.max.readytostudy.domain.model.TaskModel;
 import gusev.max.readytostudy.domain.model.TasksModel;
 import gusev.max.readytostudy.domain.model.TestModel;
 import gusev.max.readytostudy.presentation.base.BaseViewState;
 import gusev.max.readytostudy.presentation.test.TestActivityCallback;
+import gusev.max.readytostudy.utils.StringService;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
 import static gusev.max.readytostudy.domain.model.TestModel.TEST_MODEL;
+import static gusev.max.readytostudy.utils.Constants.DIALOG_REQUEST_CODE;
 
 /**
  * Created by v on 04/02/2018.
@@ -51,13 +49,12 @@ public class TasksFragment extends MviFragment<TasksView, TasksPresenter> implem
     ProgressBar progressBar;
     @BindView(R.id.error_view)
     TextView errorView;
+    @BindView(R.id.task_question)
+    TextView taskQuestion;
 
     private Unbinder unbinder;
-    private TestModel test;
     private TestActivityCallback activityCallback;
     private AnswersListAdapter adapter;
-    private TaskModel currentTask;
-    private TasksModel tasksModel;
     private Fragment dialog;
     private PublishSubject<TasksModel> subject = PublishSubject.create();
 
@@ -70,15 +67,20 @@ public class TasksFragment extends MviFragment<TasksView, TasksPresenter> implem
 
     @Override
     public void onAttach(Context context) {
-        if (getArguments() != null) {
-            test = (TestModel) getArguments().getSerializable(TEST_MODEL);
-        }
         try {
             activityCallback = (TestActivityCallback) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement activityCallback");
         }
         super.onAttach(context);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
     }
 
     @Nullable
@@ -109,18 +111,23 @@ public class TasksFragment extends MviFragment<TasksView, TasksPresenter> implem
 
     @Override
     public Observable<TestModel> getData() {
-        return Observable.just(test);
+        return getTestModel();
     }
 
     @Override
     public Observable<TasksModel> onAnswerClicked() {
-        return adapter
-                .getSelectedItemObservable()
-                .flatMap(answer -> Observable.just(getViewObject(answer)));
+        return adapter.getSelectedItemObservable();
     }
 
+    @Override
     public Observable<TasksModel> getNextTask() {
         return subject;
+    }
+
+
+    @Override
+    public void onProceedClicked(TasksModel model) {
+        subject.onNext(model);
     }
 
     @Override
@@ -129,36 +136,27 @@ public class TasksFragment extends MviFragment<TasksView, TasksPresenter> implem
             renderLoading();
         } else if (state instanceof TasksViewState.DataState) {
             renderData((TasksModel) ((BaseViewState.DataState) state).getViewObject());
+            hideDialog();
+            showContent();
         } else if (state instanceof TasksViewState.ErrorState) {
             renderError(((TasksViewState.ErrorState) state).getError());
+        } else if (state instanceof TasksViewState.DialogState) {
+            renderDialog(((TasksViewState.DialogState) state).getViewObject());
+        } else if (state instanceof TasksViewState.FinishState) {
+            renderFinish();
         }
     }
 
     private void renderData(TasksModel viewObject) {
-        if (viewObject.getPassedTask() != null) {
-            renderPassedTask(viewObject.getPassedTask());
-        }
-        this.tasksModel = viewObject;
-        int passed = viewObject.getCountOfPassedAnswers();
-        countOfAnswers.setText(passed + "/" + viewObject.getCountOfAnswers());
-        currentTask = viewObject.getTasks().get(passed);
-        adapter.setData(currentTask.getVars());
+        countOfAnswers.setText(StringService.buildCountOfAnswers(viewObject));
+        taskQuestion.setText(viewObject.getCurrentTask().getName());
+        adapter.setData(viewObject);
+    }
+
+    private void showContent() {
         content.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         errorView.setVisibility(View.GONE);
-    }
-
-    private void renderPassedTask(PassedTaskModel passedTask) {
-        if (dialog == null) {
-            dialog = AnswersCorrectnessDialog.newInstance(passedTask);
-        }
-        if (!dialog.isVisible()) {
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                    .show(dialog)
-                    .commitAllowingStateLoss();
-        }
     }
 
     private void renderLoading() {
@@ -174,34 +172,37 @@ public class TasksFragment extends MviFragment<TasksView, TasksPresenter> implem
         content.setVisibility(View.GONE);
     }
 
-    private TasksModel getViewObject(String answer) {
-        boolean pass = false;
-        String rightVar = currentTask.getVars().get(currentTask.getRightVar() - 1);
-        if (answer != null) {
-            if (rightVar.equals(answer)) {
-                pass = true;
-            }
-        }
-        List<TaskModel> passed = tasksModel.getPassedOk();
-        List<TaskModel> notPassed = tasksModel.getPassedBad();
+    private void renderDialog(TasksModel viewObject) {
+        dialog = AnswersCorrectnessDialog.newInstance(viewObject);
+        dialog.setTargetFragment(this, DIALOG_REQUEST_CODE);
 
-        if (pass) {
-            passed.add(currentTask);
-        } else {
-            notPassed.add(currentTask);
-        }
-
-        return new TasksModel(
-                tasksModel.getTestModel(),
-                tasksModel.getTasks(),
-                passed,
-                notPassed,
-                tasksModel.getPassedTask()
-        );
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                .add(dialog, AnswersCorrectnessDialog.TAG)
+                .commitAllowingStateLoss();
     }
 
-    @Override
-    public void onProceedClicked() {
-        subject.onNext(getViewObject(null));
+    private void hideDialog() {
+        if (dialog != null && dialog.isVisible()) {
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .remove(dialog)
+                    .commitAllowingStateLoss();
+        }
+    }
+
+    private void renderFinish() {
+        activityCallback.onTestFinished();
+    }
+
+    private Observable<TestModel> getTestModel() {
+        if (getArguments() != null) {
+            if (getArguments().getSerializable(TEST_MODEL) != null) {
+                return Observable.just((TestModel) getArguments().getSerializable(TEST_MODEL));
+            }
+        }
+        return Observable.empty();
     }
 }

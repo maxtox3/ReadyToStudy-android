@@ -13,7 +13,8 @@ import io.reactivex.disposables.Disposable;
  * Created by v on 27/01/2018.
  */
 
-public abstract class BaseActivityFragmentContainer extends AppCompatActivity implements FragmentContainer {
+public abstract class BaseActivityFragmentContainer extends AppCompatActivity implements
+        FragmentContainer {
 
     public final static String SAVED_FRAGMENT_TAG = "SAVED_FRAGMENT_TAG";
     private CompositeDisposable disposable;

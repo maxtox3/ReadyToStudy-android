@@ -22,10 +22,11 @@ public class TaskInteractor {
     private final AuthRepository authRepository;
 
     public TaskInteractor(
-        TestRepository repository,
-        MainMapper mapper,
-        SharedPrefManager helper,
-        AuthRepository authRepository) {
+            TestRepository repository,
+            MainMapper mapper,
+            SharedPrefManager helper,
+            AuthRepository authRepository
+    ) {
         this.repository = repository;
         this.mapper = mapper;
         this.helper = helper;
@@ -34,19 +35,26 @@ public class TaskInteractor {
 
     public Observable<BaseViewState> getData(TestModel testModel) {
         return repository
-            .getTasks(helper.getToken(), testModel.getId())
-            .map(mapper::transformTest)
-            .map(TasksViewState.DataState::new)
-            .cast(BaseViewState.class)
-            .startWith(new TasksViewState.LoadingState())
-            .onErrorReturn(TasksViewState.ErrorState::new);
+                .getTasks(helper.getToken(), testModel.getId())
+                .map(mapper::transformTest)
+                .map(TasksViewState.DataState::new)
+                .cast(BaseViewState.class)
+                .startWith(new TasksViewState.LoadingState())
+                .onErrorReturn(TasksViewState.ErrorState::new);
     }
 
     public Observable<BaseViewState> addAnswer(TasksModel tasksModel) {
-        return null;
+        return Observable.just(new TasksViewState.DialogState(tasksModel));
     }
 
     public Observable<BaseViewState> getNextTask(TasksModel tasksModel) {
-        return null;
+        return Observable
+                .just(new TasksViewState.DataState<>(TasksModel.onNextTask(tasksModel)))
+                .flatMap(state -> {
+                    if (state.getViewObject() == null) {
+                        return Observable.just(new TasksViewState.FinishState());
+                    }
+                    return Observable.just(state);
+                });
     }
 }

@@ -29,10 +29,11 @@ public class MainMapper {
     private TaskEntityToModelMapper taskMapper;
 
     public MainMapper(
-        DisciplineEntityToModelMapper disciplineMapper,
-        ThemeEntityToModelMapper themeMapper,
-        TestEntityToModelMapper testMapper,
-        TaskEntityToModelMapper taskMapper) {
+            DisciplineEntityToModelMapper disciplineMapper,
+            ThemeEntityToModelMapper themeMapper,
+            TestEntityToModelMapper testMapper,
+            TaskEntityToModelMapper taskMapper
+    ) {
         this.disciplineMapper = disciplineMapper;
         this.themeMapper = themeMapper;
         this.testMapper = testMapper;
@@ -40,62 +41,71 @@ public class MainMapper {
     }
 
     public Pair<List<DisciplineModel>, List<ThemeModel>> transformDisciplinesAndThemesPair(
-        Pair<List<DisciplineEntity>, List<ThemeEntity>> pair) {
+            Pair<List<DisciplineEntity>, List<ThemeEntity>> pair
+    ) {
         List<ThemeModel> themeModels = transformThemes(pair.second);
         List<DisciplineModel> disciplineModels = transformDisciplines(pair.first);
         return new Pair<>(disciplineModels, themeModels);
     }
 
     public Pair<List<ThemeModel>, List<TestModel>> transformThemesAndTestsPair(
-        Pair<List<ThemeEntity>, List<TestEntity>> pair) {
+            Pair<List<ThemeEntity>, List<TestEntity>> pair
+    ) {
         List<ThemeModel> themeModels = transformThemes(pair.first);
         List<TestModel> testModel = transformTests(pair.second);
         return new Pair<>(themeModels, testModel);
     }
 
     public List<DisciplineModel> transformDisciplines(
-        List<DisciplineEntity> entities) {
+            List<DisciplineEntity> entities
+    ) {
         return Observable
-            .fromIterable(entities)
-            .map(disciplineEntity -> disciplineMapper.apply(disciplineEntity))
-            .toList()
-            .blockingGet();
+                .fromIterable(entities)
+                .map(disciplineEntity -> disciplineMapper.apply(disciplineEntity))
+                .toList()
+                .blockingGet();
     }
 
     public List<ThemeModel> transformThemes(List<ThemeEntity> entities) {
         return Observable
-            .fromIterable(entities)
-            .map(themeEntity -> themeMapper.apply(themeEntity))
-            .toList()
-            .blockingGet();
+                .fromIterable(entities)
+                .map(themeEntity -> themeMapper.apply(themeEntity))
+                .toList()
+                .blockingGet();
     }
 
     public List<TestModel> transformTests(List<TestEntity> entities) {
         return Observable
-            .fromIterable(entities)
-            .map(testEntity -> testMapper.apply(testEntity))
-            .toList()
-            .blockingGet();
+                .fromIterable(entities)
+                .map(testEntity -> testMapper.apply(testEntity))
+                .toList()
+                .blockingGet();
     }
 
     public List<TaskModel> transformTasks(List<TaskEntity> taskEntities) {
         return Observable
-            .fromIterable(taskEntities)
-            .map(taskEntity -> taskMapper.apply(taskEntity))
-            .toList()
-            .blockingGet();
+                .fromIterable(taskEntities)
+                .map(taskEntity -> taskMapper.apply(taskEntity))
+                .toList()
+                .blockingGet();
     }
 
     public TasksModel transformTest(TasksResponsePojo tasksResponsePojo) {
         TestModel test = new TestModel(
-            tasksResponsePojo.getTest().getId(),
-            tasksResponsePojo.getTest().getName(),
-            tasksResponsePojo.getTest().getThemeId());
+                tasksResponsePojo.getTest().getId(),
+                tasksResponsePojo.getTest().getName(),
+                tasksResponsePojo.getTest().getThemeId(),
+                tasksResponsePojo.getTest().getDescription(),
+                tasksResponsePojo.getTest().getTasksCount()
+        );
+        List<TaskModel> tasks = transformTasks(tasksResponsePojo.getTasks());
         return new TasksModel(
-            test,
-            transformTasks(tasksResponsePojo.getTasks()),
-            new ArrayList<>(),
-            new ArrayList<>(), passedTask
+                test,
+                tasks,
+                new ArrayList<>(),
+                new ArrayList<>(),
+                tasks.get(0),
+                null
         );
     }
 }

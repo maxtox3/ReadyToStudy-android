@@ -15,10 +15,15 @@ public class TestEntity {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("description")
+    @Expose
+    private String description;
     @SerializedName("theme_id")
     @Expose
     private Long themeId;
-
+    @SerializedName("tasks_count")
+    @Expose
+    private int tasksCount;
 
     public Long getId() {
         return id;
@@ -42,5 +47,21 @@ public class TestEntity {
 
     public void setThemeId(Long themeId) {
         this.themeId = themeId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getTasksCount() {
+        return tasksCount;
+    }
+
+    public void setTasksCount(int tasksCount) {
+        this.tasksCount = tasksCount;
     }
 }

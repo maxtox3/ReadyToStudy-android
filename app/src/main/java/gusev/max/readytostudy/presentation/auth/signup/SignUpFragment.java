@@ -41,6 +41,7 @@ import gusev.max.readytostudy.presentation.base.BaseModel;
 import gusev.max.readytostudy.presentation.base.BaseViewState;
 import io.reactivex.Observable;
 
+import static gusev.max.readytostudy.utils.Constants.DIALOG_REQUEST_CODE;
 import static gusev.max.readytostudy.utils.Constants.TYPE_ERROR_BOTH;
 import static gusev.max.readytostudy.utils.Constants.TYPE_ERROR_EMAIL;
 import static gusev.max.readytostudy.utils.Constants.TYPE_ERROR_NAME;
@@ -50,7 +51,8 @@ import static gusev.max.readytostudy.utils.Constants.TYPE_ERROR_PASSWORD;
  * Created by v on 14/01/2018.
  */
 
-public class SignUpFragment extends MviFragment<SignUpView, SignUpPresenter> implements SignUpView, GroupsPickerDialog.GroupsPickerDialogListener {
+public class SignUpFragment extends MviFragment<SignUpView, SignUpPresenter> implements SignUpView,
+        GroupsPickerDialog.GroupsPickerDialogListener {
 
     @BindView(R.id.edit_email)
     EditText email;
@@ -76,7 +78,6 @@ public class SignUpFragment extends MviFragment<SignUpView, SignUpPresenter> imp
     TextInputLayout inputLayoutPassword;
 
     public static final String TAG = SignUpFragment.class.getName();
-    public static final Integer DIALOG_REQUEST_CODE = -8;
     private Unbinder unbinder;
     private Observable<SignUpModel> signUpButtonObservable;
     private AuthActivityCallback activityCallback;
@@ -105,7 +106,8 @@ public class SignUpFragment extends MviFragment<SignUpView, SignUpPresenter> imp
     @Nullable
     @Override
     public View onCreateView(
-        @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
+    ) {
         View view = inflater.inflate(R.layout.fragment_signup, null);
         unbinder = ButterKnife.bind(this, view);
         signUpButtonObservable = RxView.clicks(btnRegister).share().map(o -> getModel());
@@ -158,7 +160,7 @@ public class SignUpFragment extends MviFragment<SignUpView, SignUpPresenter> imp
     }
 
     private void renderSignUpOk(BaseModel model) {
-        if(model instanceof UserModel) {
+        if (model instanceof UserModel) {
             progressBar.setVisibility(View.GONE);
             activityCallback.loggedIn((UserModel) model);
         }
@@ -176,8 +178,8 @@ public class SignUpFragment extends MviFragment<SignUpView, SignUpPresenter> imp
 
     private void renderFieldError(String fieldType) {
         progressBar.setVisibility(View.GONE);
-        switch (fieldType){
-            case TYPE_ERROR_BOTH :
+        switch (fieldType) {
+            case TYPE_ERROR_BOTH:
                 setPasswordError();
                 setEmailError();
                 setNameError();
@@ -210,7 +212,8 @@ public class SignUpFragment extends MviFragment<SignUpView, SignUpPresenter> imp
 
     private void initEditTexts() {
         FrameLayout frameLayout = (FrameLayout) email.getParent();
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) frameLayout.getLayoutParams();
+        LinearLayout.LayoutParams params =
+                (LinearLayout.LayoutParams) frameLayout.getLayoutParams();
         params.setMargins(0, 0, 0, 1);
         frameLayout.setLayoutParams(params);
         frameLayout = (FrameLayout) password.getParent();
@@ -268,33 +271,34 @@ public class SignUpFragment extends MviFragment<SignUpView, SignUpPresenter> imp
 
     private SignUpModel getModel() {
         return new SignUpModel(
-            name.getText().toString(),
-            email.getText().toString(),
-            password.getText().toString(),
-            getSelectedGroupId());
+                name.getText().toString(),
+                email.getText().toString(),
+                password.getText().toString(),
+                getSelectedGroupId()
+        );
     }
 
-    private Long getSelectedGroupId(){
+    private Long getSelectedGroupId() {
         String name = groupName.getText().toString();
-        for(GroupModel model : models){
-            if(name.equals(model.getName())){
+        for (GroupModel model : models) {
+            if (name.equals(model.getName())) {
                 return model.getId();
             }
         }
         return null;
     }
 
-    private void setPasswordError(){
+    private void setPasswordError() {
         inputLayoutPassword.setErrorEnabled(true);
         inputLayoutPassword.setError("Пароль должен быть более 4 символов");
     }
 
-    private void setEmailError(){
+    private void setEmailError() {
         inputLayoutEmail.setErrorEnabled(true);
         inputLayoutEmail.setError("Email должен быть более 4 символов");
     }
 
-    private void setNameError(){
+    private void setNameError() {
         inputLayoutName.setErrorEnabled(true);
         inputLayoutName.setError("Слишком короткое имя");
     }

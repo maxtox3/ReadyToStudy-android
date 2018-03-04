@@ -44,7 +44,7 @@ public class TestActivity extends BaseActivityFragmentContainer implements TestA
     protected Fragment createFragment(String tag, Bundle args) {
         switch (tag) {
             case TEST_INFO_FRAGMENT:
-                return new TestInfoFragment();
+                return TestInfoFragment.newInstance(args);
             case TASK_FRAGMENT:
                 return TasksFragment.newInstance(args);
             default:
@@ -55,18 +55,27 @@ public class TestActivity extends BaseActivityFragmentContainer implements TestA
 
     @Override
     public void navigateToTestInfo() {
-        navigateToFragment(TEST_INFO_FRAGMENT, null, false);
+        navigateToFragment(TEST_INFO_FRAGMENT, getBundle(), false);
     }
 
     @Override
-    public void navigateToTask(TestModel model) {
-        Bundle args = new Bundle();
-        args.putSerializable(TEST_MODEL, model);
-        navigateToFragment(TASK_FRAGMENT, args, true);
+    public void navigateToTask() {
+        navigateToFragment(TASK_FRAGMENT, getBundle(), true);
     }
 
     @Override
     public void onStartPressed() {
-        navigateToTask(model);
+        navigateToTask();
+    }
+
+    @Override
+    public void onTestFinished() {
+
+    }
+
+    private Bundle getBundle() {
+        Bundle args = new Bundle();
+        args.putSerializable(TEST_MODEL, model);
+        return args;
     }
 }

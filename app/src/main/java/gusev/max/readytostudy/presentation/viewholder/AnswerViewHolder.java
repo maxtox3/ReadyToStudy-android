@@ -4,7 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,12 +21,19 @@ public class AnswerViewHolder extends RecyclerView.ViewHolder {
         void onAnswerClicked(String nameOfVariant);
     }
 
-    public static AnswerViewHolder create(LayoutInflater inflater, TaskClickListener listener) {
-        return new AnswerViewHolder(inflater.inflate(R.layout.item_answer, null, false), listener);
+    public static AnswerViewHolder create(
+            LayoutInflater inflater,
+            ViewGroup parent,
+            TaskClickListener listener
+    ) {
+        return new AnswerViewHolder(
+                inflater.inflate(R.layout.item_answer, parent, false),
+                listener
+        );
     }
 
     @BindView(R.id.answer)
-    Button answer;
+    TextView answer;
 
     private String textOfAnswer;
 

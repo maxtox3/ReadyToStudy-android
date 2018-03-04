@@ -1,6 +1,7 @@
 package gusev.max.readytostudy.utils;
 
 import gusev.max.readytostudy.App;
+import gusev.max.readytostudy.domain.model.TasksModel;
 
 /**
  * Created by v on 27/01/2018.
@@ -18,5 +19,9 @@ public class StringService {
 
     public static String buildTokenString(String token) {
         return "Bearer " + token;
+    }
+
+    public static String buildCountOfAnswers(TasksModel model) {
+        return model.getCountOfPassedTasks() + 1 + "/" + model.getCountOfTasks();
     }
 }

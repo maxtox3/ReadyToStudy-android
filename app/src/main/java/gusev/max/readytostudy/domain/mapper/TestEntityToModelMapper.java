@@ -12,6 +12,12 @@ public class TestEntityToModelMapper implements Function<TestEntity, TestModel> 
 
     @Override
     public TestModel apply(TestEntity testEntity) {
-        return new TestModel(testEntity.getId(), testEntity.getName(), testEntity.getThemeId());
+        return new TestModel(
+                testEntity.getId(),
+                testEntity.getName(),
+                testEntity.getThemeId(),
+                testEntity.getDescription(),
+                testEntity.getTasksCount()
+        );
     }
 }
