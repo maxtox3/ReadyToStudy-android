@@ -24,10 +24,11 @@ public class AuthPresenter extends MviBasePresenter<AuthView, BaseViewState> {
     protected void bindIntents() {
 
         Observable<BaseViewState> login = intent(AuthView::login).flatMap(signUpModel -> interactor
-            .login(signUpModel.getEmail(), signUpModel.getPassword())
-            .subscribeOn(Schedulers.io()));
+                .login(signUpModel.getEmail(), signUpModel.getPassword())
+                .subscribeOn(Schedulers.io()));
 
-        Observable<BaseViewState> allIntentsObservable = login.observeOn(AndroidSchedulers.mainThread());
+        Observable<BaseViewState> allIntentsObservable =
+                login.observeOn(AndroidSchedulers.mainThread());
 
         subscribeViewState(allIntentsObservable, AuthView::render);
     }

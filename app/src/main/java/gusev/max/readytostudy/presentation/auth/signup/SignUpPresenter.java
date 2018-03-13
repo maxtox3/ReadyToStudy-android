@@ -22,17 +22,19 @@ public class SignUpPresenter extends MviBasePresenter<SignUpView, BaseViewState>
 
     @Override
     protected void bindIntents() {
-        Observable<BaseViewState> getDataIntent = intent(SignUpView::getData).flatMap(ignored -> interactor
-            .getGroups()
-            .subscribeOn(Schedulers.io()));
+        Observable<BaseViewState> getDataIntent =
+                intent(SignUpView::getData).flatMap(ignored -> interactor
+                        .getGroups()
+                        .subscribeOn(Schedulers.io()));
 
-        Observable<BaseViewState> signUp = intent(SignUpView::signUp).flatMap(signUpModel -> interactor
-            .signUp(signUpModel)
-            .subscribeOn(Schedulers.io()));
+        Observable<BaseViewState> signUp =
+                intent(SignUpView::signUp).flatMap(signUpModel -> interactor
+                        .signUp(signUpModel)
+                        .subscribeOn(Schedulers.io()));
 
         Observable<BaseViewState> allIntentsObservable = Observable
-            .merge(getDataIntent, signUp)
-            .observeOn(AndroidSchedulers.mainThread());
+                .merge(getDataIntent, signUp)
+                .observeOn(AndroidSchedulers.mainThread());
 
         subscribeViewState(allIntentsObservable, SignUpView::render);
     }

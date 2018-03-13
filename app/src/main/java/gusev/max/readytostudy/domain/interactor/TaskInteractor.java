@@ -1,5 +1,6 @@
 package gusev.max.readytostudy.domain.interactor;
 
+import gusev.max.readytostudy.data.pojo.TestPostPojo;
 import gusev.max.readytostudy.data.repository.auth.AuthRepository;
 import gusev.max.readytostudy.data.repository.tests.TestRepository;
 import gusev.max.readytostudy.domain.mapper.MainMapper;
@@ -52,9 +53,18 @@ public class TaskInteractor {
                 .just(new TasksViewState.DataState<>(TasksModel.onNextTask(tasksModel)))
                 .flatMap(state -> {
                     if (state.getViewObject() == null) {
-                        return Observable.just(new TasksViewState.FinishState(tasksModel));
+                        return finishTask(tasksModel);
                     }
                     return Observable.just(state);
                 });
+    }
+
+    public Observable<BaseViewState> finishTask(TasksModel tasksModel) {
+        TestPostPojo pojo = mapper.revertTransformTest(tasksModel);
+        return repository.finishTest(helper.getToken(), pojo)
+                .map(basePojo -> new TasksViewState.FinishState(tasksModel))
+                .cast(BaseViewState.class)
+                .startWith(new TasksViewState.LoadingState())
+                .onErrorReturn(TasksViewState.ErrorState::new);
     }
 }

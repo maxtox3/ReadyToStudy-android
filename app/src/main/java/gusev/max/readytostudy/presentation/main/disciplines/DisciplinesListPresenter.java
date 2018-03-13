@@ -13,25 +13,28 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class DisciplinesListPresenter extends MviBasePresenter<DisciplinesListView,
-    BaseViewState> {
+        BaseViewState> {
 
     private DisciplineInteractor interactor;
 
-    public DisciplinesListPresenter(DisciplineInteractor interactor){
+    public DisciplinesListPresenter(DisciplineInteractor interactor) {
         this.interactor = interactor;
     }
 
     @Override
     protected void bindIntents() {
         Observable<BaseViewState> getData = intent(DisciplinesListView::getData)
-            .flatMap(ignored -> interactor.getDisciplines().subscribeOn(Schedulers.io()));
+                .flatMap(ignored -> interactor.getDisciplines().subscribeOn(Schedulers.io()));
 
-        Observable<BaseViewState> selectDiscipline = intent(DisciplinesListView::selectDisciplineIntent)
-            .flatMap(disciplineId -> interactor.selectDiscipline(disciplineId).subscribeOn
-                (Schedulers.io()));
+        Observable<BaseViewState> selectDiscipline =
+                intent(DisciplinesListView::selectDisciplineIntent)
+                        .flatMap(disciplineId -> interactor.selectDiscipline(disciplineId)
+                                .subscribeOn(Schedulers.io()));
 
-        Observable<BaseViewState> allIntentsObservable = Observable.merge(getData,
-            selectDiscipline).observeOn(AndroidSchedulers.mainThread());
+        Observable<BaseViewState> allIntentsObservable = Observable.merge(
+                getData,
+                selectDiscipline
+        ).observeOn(AndroidSchedulers.mainThread());
 
         subscribeViewState(allIntentsObservable, DisciplinesListView::render);
     }

@@ -26,4 +26,13 @@
     <string name="proceed">Продолжить</string>
     <string name="finish">Закончить</string>
     <string name="try_again">Попробовать снова</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="default_notification_channel_name" translatable="true">News</string>
+    <string name="one_per_day">1 раз в день</string>
+    <string name="two_per_day">2 раза в день</string>
+    <string name="three_per_day">3 раза в день</string>
+    <string name="four_per_day">4 раза в день</string>
+    <string name="motivation_text">Настало время выбрать - как часто наше приложение будет мотивировать(доставать) тебя, чтобы ты занимался!</string>
+    <string name="content">Пришло время показать, кто тут мозг</string>
 </resources>

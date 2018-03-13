@@ -10,6 +10,7 @@ import gusev.max.readytostudy.data.entity.TaskEntity;
 import gusev.max.readytostudy.data.entity.TestEntity;
 import gusev.max.readytostudy.data.entity.ThemeEntity;
 import gusev.max.readytostudy.data.pojo.TasksResponsePojo;
+import gusev.max.readytostudy.data.pojo.TestPostPojo;
 import gusev.max.readytostudy.domain.model.DisciplineModel;
 import gusev.max.readytostudy.domain.model.TaskModel;
 import gusev.max.readytostudy.domain.model.TasksModel;
@@ -27,17 +28,20 @@ public class MainMapper {
     private ThemeEntityToModelMapper themeMapper;
     private TestEntityToModelMapper testMapper;
     private TaskEntityToModelMapper taskMapper;
+    private TasksModelToTestPostPojoMapper testRevertMapper;
 
     public MainMapper(
             DisciplineEntityToModelMapper disciplineMapper,
             ThemeEntityToModelMapper themeMapper,
             TestEntityToModelMapper testMapper,
-            TaskEntityToModelMapper taskMapper
+            TaskEntityToModelMapper taskMapper,
+            TasksModelToTestPostPojoMapper testRevertMapper
     ) {
         this.disciplineMapper = disciplineMapper;
         this.themeMapper = themeMapper;
         this.testMapper = testMapper;
         this.taskMapper = taskMapper;
+        this.testRevertMapper = testRevertMapper;
     }
 
     public Pair<List<DisciplineModel>, List<ThemeModel>> transformDisciplinesAndThemesPair(
@@ -105,7 +109,14 @@ public class MainMapper {
                 new ArrayList<>(),
                 new ArrayList<>(),
                 tasks.get(0),
-                null
+                null,
+                System.currentTimeMillis()
         );
+    }
+
+    public TestPostPojo revertTransformTest(TasksModel model) {
+        return Observable.just(model)
+                .map(testRevertMapper)
+                .blockingFirst();
     }
 }

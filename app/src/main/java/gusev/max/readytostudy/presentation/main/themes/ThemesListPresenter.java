@@ -16,20 +16,18 @@ public class ThemesListPresenter extends MviBasePresenter<ThemesListView, BaseVi
 
     private ThemeInteractor interactor;
 
-    public ThemesListPresenter(ThemeInteractor interactor){
+    public ThemesListPresenter(ThemeInteractor interactor) {
         this.interactor = interactor;
     }
+
     @Override
     protected void bindIntents() {
         Observable<BaseViewState> getData = intent(ThemesListView::getData)
-            .flatMap(themeId -> interactor.getTestsByThemeId(themeId).subscribeOn(Schedulers.io()));
+                .flatMap(themeId -> interactor.getTestsByThemeId(themeId)
+                        .subscribeOn(Schedulers.io()));
 
-//        Observable<BaseViewState> selectDiscipline = intent(ThemesListView::selectThemeIntent)
-//            .flatMap(themeId -> interactor.getTestsByThemeId(themeId).subscribeOn
-//                (Schedulers.io()));
-
-        Observable<BaseViewState> allIntentsObservable = getData.observeOn(AndroidSchedulers.mainThread());//Observable.merge(getData)
-
+        Observable<BaseViewState> allIntentsObservable =
+                getData.observeOn(AndroidSchedulers.mainThread());
 
         subscribeViewState(allIntentsObservable, ThemesListView::render);
     }

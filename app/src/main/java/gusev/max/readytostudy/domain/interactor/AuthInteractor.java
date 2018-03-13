@@ -29,7 +29,8 @@ public class AuthInteractor {
     private SharedPrefManager helper;
 
     public AuthInteractor(
-        AuthRepository repository, AuthMapper mapper, SharedPrefManager helper) {
+            AuthRepository repository, AuthMapper mapper, SharedPrefManager helper
+    ) {
         this.repository = repository;
         this.mapper = mapper;
         this.helper = helper;
@@ -44,30 +45,30 @@ public class AuthInteractor {
             return Observable.just(new AuthViewState.FieldErrorState(TYPE_ERROR_PASSWORD));
         } else {
             return repository
-                .login(email, password)
-                .map(entity -> mapper.transformUser(entity))
-                .doOnNext(userModel -> helper.saveToken(userModel.getToken()))
-                .map(AuthViewState.DataStateBase::new)
-                .cast(BaseViewState.class)
-                .startWith(new AuthViewState.LoadingState())
-                .onErrorReturn(AuthViewState.ErrorState::new);
+                    .login(email, password)
+                    .map(entity -> mapper.transformUser(entity))
+                    .doOnNext(userModel -> helper.saveToken(userModel.getToken()))
+                    .map(AuthViewState.DataStateBase::new)
+                    .cast(BaseViewState.class)
+                    .startWith(new AuthViewState.LoadingState())
+                    .onErrorReturn(AuthViewState.ErrorState::new);
         }
     }
 
     public Observable<BaseViewState> getGroups() {
         return repository
-            .getGroups()
-            .map(entities -> mapper.transformGroups(entities))
-            .map(SignUpViewState.GroupsDataState::new)
-            .cast(BaseViewState.class)
-            .startWith(new SignUpViewState.LoadingState())
-            .onErrorReturn(SignUpViewState.ErrorState::new);
+                .getGroups()
+                .map(entities -> mapper.transformGroups(entities))
+                .map(SignUpViewState.GroupsDataState::new)
+                .cast(BaseViewState.class)
+                .startWith(new SignUpViewState.LoadingState())
+                .onErrorReturn(SignUpViewState.ErrorState::new);
     }
 
     public Observable<BaseViewState> signUp(SignUpModel model) {
         if (model.getEmail().length() < 4 && model.getPassword().length() < 4 && model
-            .getName()
-            .length() < 4 && model.getGroupId() == null) {
+                .getName()
+                .length() < 4 && model.getGroupId() == null) {
             return Observable.just(new AuthViewState.FieldErrorState(TYPE_ERROR_ALL));
         } else if (model.getEmail().length() < 4) {
             return Observable.just(new AuthViewState.FieldErrorState(TYPE_ERROR_EMAIL));
@@ -79,25 +80,30 @@ public class AuthInteractor {
             return getGroups();
         } else {
             return repository
-                .signup(model.getName(), model.getEmail(), model.getPassword(), model.getGroupId())
-                .map(entity -> mapper.transformUser(entity))
-                .doOnNext(userModel -> helper.saveToken(userModel.getToken()))
-                .map(SignUpViewState.DataStateBase::new)
-                .cast(BaseViewState.class)
-                .startWith(new SignUpViewState.LoadingState())
-                .onErrorReturn(SignUpViewState.ErrorState::new);
+                    .signup(
+                            model.getName(),
+                            model.getEmail(),
+                            model.getPassword(),
+                            model.getGroupId()
+                    )
+                    .map(entity -> mapper.transformUser(entity))
+                    .doOnNext(userModel -> helper.saveToken(userModel.getToken()))
+                    .map(SignUpViewState.DataStateBase::new)
+                    .cast(BaseViewState.class)
+                    .startWith(new SignUpViewState.LoadingState())
+                    .onErrorReturn(SignUpViewState.ErrorState::new);
         }
     }
 
     public Observable<UserModel> reauth() {
         if (!helper.getToken().equals("")) {
             return repository
-                .reauth(helper.getToken())
-                .map(entity -> mapper.transformUser(entity))
-                .flatMap(userModel -> {
-                    helper.saveToken(userModel.getToken());
-                    return Observable.just(userModel);
-                });
+                    .reauth(helper.getToken())
+                    .map(entity -> mapper.transformUser(entity))
+                    .flatMap(userModel -> {
+                        helper.saveToken(userModel.getToken());
+                        return Observable.just(userModel);
+                    });
         } else {
             return Observable.error(new Throwable());
         }

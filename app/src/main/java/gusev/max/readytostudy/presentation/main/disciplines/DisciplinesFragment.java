@@ -40,6 +40,7 @@ public class DisciplinesFragment extends MviFragment<DisciplinesListView,
         .MainClickListener<ThemeModel> {
 
     public static final String TAG = DisciplinesFragment.class.getName();
+
     @BindView(R.id.top_recycler)
     RecyclerView disciplinesRecycler;
     @BindView(R.id.main_recycler)

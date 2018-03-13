@@ -17,6 +17,7 @@ public class TasksModel implements Serializable {
     private final List<Long> passedBadTasksIds;
     private final TaskModel currentTask;
     private final PassedTaskModel passedTask;
+    private final Long start;
 
     public TasksModel(
             TestModel testModel,
@@ -24,7 +25,8 @@ public class TasksModel implements Serializable {
             List<Long> passedOkTasksIds,
             List<Long> passedBadTasksIds,
             TaskModel currentTask,
-            PassedTaskModel passedTask
+            PassedTaskModel passedTask,
+            Long start
     ) {
         this.testModel = testModel;
         this.tasks = tasks;
@@ -32,6 +34,7 @@ public class TasksModel implements Serializable {
         this.passedBadTasksIds = passedBadTasksIds;
         this.currentTask = currentTask;
         this.passedTask = passedTask;
+        this.start = start;
     }
 
     public TestModel getTestModel() {
@@ -66,6 +69,10 @@ public class TasksModel implements Serializable {
         return tasks.size();
     }
 
+    public Long getStart() {
+        return start;
+    }
+
     public static TasksModel addAnswer(TasksModel from, String answer) {
         TaskModel currentTask = from.getCurrentTask();
         String rightVar = currentTask.getVars().get(currentTask.getRightVar() - 1);
@@ -93,7 +100,8 @@ public class TasksModel implements Serializable {
                 passed,
                 notPassed,
                 currentTask,
-                passedTaskModel
+                passedTaskModel,
+                from.getStart()
         );
     }
 
@@ -107,7 +115,8 @@ public class TasksModel implements Serializable {
                     tasksModel.getPassedOkTasksIds(),
                     tasksModel.getPassedBadTasksIds(),
                     nextTask,
-                    tasksModel.getPassedTask()
+                    tasksModel.getPassedTask(),
+                    tasksModel.getStart()
             );
         }
         return null;

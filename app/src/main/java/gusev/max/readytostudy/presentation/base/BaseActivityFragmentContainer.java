@@ -65,8 +65,7 @@ public abstract class BaseActivityFragmentContainer extends AppCompatActivity im
             transaction.setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.addToBackStack(null);
         }
-        //проверяем, есть ли переданный таг внутри манагера
-        //если есть то просто его возвращаем, нет - создаем
+
         if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
             replace(transaction, getSupportFragmentManager().findFragmentByTag(tag), tag);
         } else {

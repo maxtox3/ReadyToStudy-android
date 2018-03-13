@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryLightDark"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_medium"
+        android:layout_marginTop="70dp"
+        android:text="@string/motivation_text"
+        android:textAlignment="center"
+        android:textSize="@dimen/text.18"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/four_per_day_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_xlarge"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/continue_selector"
+        android:text="@string/four_per_day"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/three_per_day_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_xlarge"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/continue_selector"
+        android:text="@string/three_per_day"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/two_per_day_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_xlarge"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/continue_selector"
+        android:text="@string/two_per_day"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/one_per_day_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_xlarge"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/continue_selector"
+        android:text="@string/one_per_day"
+        android:textColor="@color/white"/>
+
+
+</LinearLayout>

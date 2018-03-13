@@ -19,12 +19,19 @@ public class Constants {
 
     public static final String DISCIPLINES_LIST_FRAGMENT = "DisciplinesFragment";
     public static final String THEMES_LIST_FRAGMENT = "ThemesFragment";
+    public static final String CHOOSE_NOTIFICATIONS_INTERVAL_FRAGMENT = "ChooseNotificationsIntervalFragment";
 
     public static final String TEST_INFO_FRAGMENT = "TestInfoFragment";
     public static final String TASK_FRAGMENT = "TasksFragment";
     public static final String TEST_RESULT_FRAGMENT = "TestResultFragment";
 
     public static final Integer DIALOG_REQUEST_CODE = -8;
+    public static final String NOTIFICATIONS_INTERVAL_CHOSEN = "notifications_interval_chosen";
+    public static final String NOTIFICATIONS_PER_DAY = "notifications_per_day";
+    public static final int ONE_PER_DAY = 1;
+    public static final int TWO_PER_DAY = 2;
+    public static final int THREE_PER_DAY = 3;
+    public static final int FOUR_PER_DAY = 4;
 //    public static final String DISCIPLINES_LIST_FRAGMENT = "DisciplinesListFragment";
 
 //    public static final String AUTH_FRAGMENT = "AuthFragment";

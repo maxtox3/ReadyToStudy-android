@@ -25,6 +25,7 @@ import gusev.max.readytostudy.domain.mapper.DisciplineEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.GroupEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.MainMapper;
 import gusev.max.readytostudy.domain.mapper.TaskEntityToModelMapper;
+import gusev.max.readytostudy.domain.mapper.TasksModelToTestPostPojoMapper;
 import gusev.max.readytostudy.domain.mapper.TestEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.ThemeEntityToModelMapper;
 import gusev.max.readytostudy.domain.mapper.UserEntityToModelMapper;
@@ -33,6 +34,7 @@ import gusev.max.readytostudy.presentation.auth.signup.SignUpPresenter;
 import gusev.max.readytostudy.presentation.main.disciplines.DisciplinesListPresenter;
 import gusev.max.readytostudy.presentation.main.themes.ThemesListPresenter;
 import gusev.max.readytostudy.presentation.test.task.TasksPresenter;
+import gusev.max.readytostudy.services.NotificationService;
 import gusev.max.readytostudy.utils.SharedPrefManager;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -64,6 +66,12 @@ public class DependencyInjection {
     private final DisciplinesApi disciplinesApi = retrofit.create(DisciplinesApi.class);
     private final ThemesApi themesApi = retrofit.create(ThemesApi.class);
     private final TestApi testApi = retrofit.create(TestApi.class);
+
+
+    //<----------------------singletons---------------------->
+    public NotificationService getNotificationService(){
+        return NotificationService.getInstance();
+    }
 
 
     //<----------------------repository---------------------->
@@ -104,9 +112,10 @@ public class DependencyInjection {
     private ThemeEntityToModelMapper themeEntityToModelMapper = new ThemeEntityToModelMapper();
     private TestEntityToModelMapper testEntityToModelMapper = new TestEntityToModelMapper();
     private TaskEntityToModelMapper taskEntityToModelMapper = new TaskEntityToModelMapper();
+    private TasksModelToTestPostPojoMapper tasksModelToTestPostPojoMapper = new TasksModelToTestPostPojoMapper();
     private MainMapper mainMapper = new MainMapper(disciplineEntityToModelMapper,
         themeEntityToModelMapper,
-        testEntityToModelMapper, taskEntityToModelMapper);
+        testEntityToModelMapper, taskEntityToModelMapper, tasksModelToTestPostPojoMapper);
 
     private MainMapper getMainMapper() {
         return mainMapper;

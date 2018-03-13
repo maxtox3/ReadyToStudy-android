@@ -12,5 +12,7 @@ public interface MainActivityCallback {
 
     void navigateToThemes(BaseModel model);
 
+    void navigateToChooseNotificationsIntervalFragment();
+
     void onBackPressedInFragment();
 }
