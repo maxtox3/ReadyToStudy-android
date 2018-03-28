@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import gusev.max.readytostudy.App;
+import gusev.max.readytostudy.BuildConfig;
 import gusev.max.readytostudy.R;
 import gusev.max.readytostudy.domain.interactor.AuthInteractor;
 import gusev.max.readytostudy.domain.model.UserModel;
@@ -36,6 +37,7 @@ public class AuthActivity extends BaseActivityFragmentContainer implements AuthA
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth_activity);
+        App.getDependencyInjection(this).getNotificationService().createNextNotification();
         interactor = App.getDependencyInjection(this).getAuthInteractor();
         if (savedInstanceState == null) {
             checkAuth();
@@ -48,7 +50,12 @@ public class AuthActivity extends BaseActivityFragmentContainer implements AuthA
                     .reauth()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::loggedIn, throwable -> navigateToAuth());
+                    .subscribe(this::loggedIn, throwable -> {
+                        if(BuildConfig.DEBUG){
+                            throwable.printStackTrace();
+                        }
+                        navigateToAuth();
+                    });
             addDisposable(disposable);
         } else {
             Toast.makeText(this, "Проверьте ваше интернет соединение", Toast.LENGTH_SHORT).show();

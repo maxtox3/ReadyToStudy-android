@@ -3,6 +3,8 @@ package gusev.max.readytostudy;
 import android.app.Application;
 import android.content.Context;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import gusev.max.readytostudy.di.DependencyInjection;
 import gusev.max.readytostudy.utils.SharedPrefManager;
 
@@ -20,6 +22,7 @@ public class App extends Application {
         context = this;
         super.onCreate();
         SharedPrefManager.init(context);
+        JodaTimeAndroid.init(this);
         dependencyInjection = new DependencyInjection();
     }
 

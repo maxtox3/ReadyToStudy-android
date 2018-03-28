@@ -54,7 +54,11 @@
 
         <!--SERVICES-->
 
-
+        <receiver android:name=".services.MyNotificationPublisher">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
         <!-- [START firebase_service] -->
         <!-- [END firebase_service] -->
         <!-- [START firebase_iid_service] -->

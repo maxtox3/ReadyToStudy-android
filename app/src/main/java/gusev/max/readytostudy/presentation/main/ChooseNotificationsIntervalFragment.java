@@ -88,7 +88,7 @@ public class ChooseNotificationsIntervalFragment extends Fragment {
 
         App.getDependencyInjection(getActivity()).getNotificationService().createNextNotification();
 
-        activityCallback.onBackPressedInFragment();
+        activityCallback.navigateToDisciplines();
     }
 
 

@@ -1,8 +1,8 @@
 package gusev.max.readytostudy.data.api;
 
+import gusev.max.readytostudy.data.pojo.BasePojo;
 import gusev.max.readytostudy.data.pojo.TasksResponsePojo;
 import gusev.max.readytostudy.data.pojo.TestPostPojo;
-import io.reactivex.Completable;
 import io.reactivex.Single;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -21,6 +21,6 @@ public interface TestApi {
         @Header("Authorization") String token, @Path("id") Long testId);
 
     @POST("test/finish")
-    Completable finishTest(
+    Single<BasePojo> finishTest(
             @Header("Authorization") String token, @Body TestPostPojo testPostPojo);
 }

@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.joda.time.DateTime;
 
@@ -41,7 +42,7 @@ public class NotificationService {
     }
 
     public void createNextNotification() {
-        long delay = 0L;
+        Long delay = null;
         DelayBuilder delayBuilder = new DelayBuilder();
         switch (PreferenceManager.getDefaultSharedPreferences(App.getContext())
                 .getInt(NOTIFICATIONS_PER_DAY, 4)) {
@@ -61,7 +62,7 @@ public class NotificationService {
                 break;
         }
 
-        if (delay != 0) {
+        if (delay != null) {
             scheduleNotification(App.getContext(), delay, new Random().nextInt());
         }
     }
@@ -81,59 +82,42 @@ public class NotificationService {
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
-            alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+            Log.i("FUTUREINMILLIS", "future : " + String.valueOf(futureInMillis));
+            Log.i("FUTUREINMILLIS", "now : " + String.valueOf(System.currentTimeMillis()));
+            alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
         }
     }
 
     private class DelayBuilder {
 
-        private long createIntervals(int[] timePoints) {
+        private Long createIntervals(int[] timePoints) {
             int min = timePoints[0];
             int max = timePoints[timePoints.length - 1];
 
-            long delay = 0L;
-
             if (min == max) {
-                delay = calculateNotificationForTomorrow(min);
+                return calculateNotificationForTomorrow(min);
             } else {
                 if (isInMinVsMax(min, max)) {
-                    delay = createForMinMax(min, max);
+                    return createForMinMax(min, max);
                 } else {
-                    for (int i = 0; i < timePoints.length - 1; i++) {
+                    for (int i = 0; i <= timePoints.length - 2; i++) {
                         if (compareBetweenHours(timePoints[i], timePoints[i + 1])) {
-                            delay = calculateNotificationForToday(timePoints[i + 1]);
+                            return calculateNotificationForToday(timePoints[i + 1]);
                         }
                     }
                 }
             }
-            return delay;
+            return null;
         }
 
-        private long createForMinMax(int min, int max) {
-            long delay = 0L;
+        private Long createForMinMax(int min, int max) {
             if (compareNowHourVsMinHour(min)) {
-                delay = calculateNotificationForToday(min);
+                return calculateNotificationForToday(min);
             } else if (compareNowHourVsMaxHour(max)) {
-                delay = calculateNotificationForTomorrow(min);
+                return calculateNotificationForTomorrow(min);
             }
-            return delay;
+            return null;
         }
-
-//    private void createFourIntervals() {
-//        if (isInMinVsMax(10, 19)) {
-//            if (compareNowHourVsMinHour(10)) {
-//                calculateNotificationForToday(10);
-//            } else if (compareNowHourVsMaxHour(19)) {
-//                calculateNotificationForTomorrow(10);
-//            }
-//        } else if (compareBetweenHours(10, 13)) {
-//            calculateNotificationForToday(13);
-//        } else if (compareBetweenHours(13, 16)) {
-//            calculateNotificationForToday(16);
-//        } else if (compareBetweenHours(16, 19)) {
-//            calculateNotificationForToday(19);
-//        }
-//    }
 
         private boolean isInMinVsMax(int min, int max) {
             return (min > nowInHours() || max < nowInHours());
@@ -152,23 +136,23 @@ public class NotificationService {
         }
 
         private int nowInHours() {
-            return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            return Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + 1;
         }
 
         private DateTime getToday() {
             return DateTime.now();
         }
 
-        private long calculateNotificationForToday(int hour) {
-            return calculateForToday(hour).getMillis() - System.currentTimeMillis();
+        private Long calculateNotificationForToday(int hour) {
+            return calculateForToday(hour).getMillis();
         }
 
         private DateTime calculateForToday(int hour) {
             return getToday().plusHours(hour - nowInHours());
         }
 
-        private long calculateNotificationForTomorrow(int hour) {
-            return calculateForTomorrow(hour).getMillis() - System.currentTimeMillis();
+        private Long calculateNotificationForTomorrow(int hour) {
+            return calculateForTomorrow(hour).getMillis();
         }
 
         private DateTime calculateForTomorrow(int hour) {
